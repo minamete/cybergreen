@@ -2,6 +2,25 @@ from dotenv import load_dotenv
 import os
 from openai import OpenAI
 
+from lda_helper import load_lda_model, classify_new_input
+
+# Load pre-trained LDA model
+lda_model_path = "models/lda_model"
+loaded_lda_model = load_lda_model(lda_model_path)
+
+def predict_topic(user_input):
+    # Define human-readable topic labels based on trained LDA model
+    topic_labels = {
+        0: "Sustainable Packaging",
+        1: "Waste Reduction",
+        2: "Sustainable Fashion",
+        3: "Circular Economy",
+        4: "Electronic Waste",
+        # Add more as needed
+    }
+
+    return classify_new_input(loaded_lda_model, user_input, topic_labels)
+
 def get_openai_response(user_input):
 
     load_dotenv()
