@@ -1,32 +1,39 @@
+from dotenv import load_dotenv
 import os
 from openai import OpenAI
 
-api_key = os.getenv("OPENAI_API_KEY")
+def get_openai_response(user_input):
 
-if not api_key:
-    raise ValueError("OPENAI_API_KEY environment variable is not set.")
+    load_dotenv()
 
-# Initialize OpenAI client
-client = OpenAI(api_key=api_key)
+    api_key = os.getenv("OPENAI_API_KEY")
 
-user_message = "hello there!"
+    # Check if the API key is available
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY environment variable is not set.")
 
-# Create a list of messages with the user message
-messages = [
-    {"role": "user", "content": user_message}
-]
+    # Initialize OpenAI client
+    client = OpenAI(api_key=api_key)
 
-# Call OpenAI API for completions
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=messages,
-    temperature=1,
-    max_tokens=256,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0
-)
+    # Create a list of messages with the user message
+    messages = [{"role": "user", "content": user_input}]
 
-# Extract and print the assistant's reply
-assistant_reply = response['choices'][0]['message']['content']
-print("Assistant:", assistant_reply)
+    # Call OpenAI API for completions
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        temperature=1,
+        max_tokens=256,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+
+    # Extract and return the assistant's reply
+    assistant_reply = response.choices[0].message.content
+    return assistant_reply
+
+# Example usage
+user_input = "what are 10 commonly discussed solutions to combat plastic waste"
+response = get_openai_response(user_input)
+print("Assistant:", response)
