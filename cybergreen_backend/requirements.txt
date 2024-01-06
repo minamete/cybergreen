@@ -1,0 +1,6 @@
+Flask>=3.0
+openai
+python-dotenv
+scikit-learn
+transformers
+torch
