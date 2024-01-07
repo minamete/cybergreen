@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 from openai import OpenAI
+import re
 
 def get_openai_response(user_input):
 
@@ -285,15 +286,19 @@ def get_env_impact_score(problem, solution, category):
 
 def get_all_scores(problem, solution, category):
     feasibility_score = get_feasibility_score(problem, solution, category)
-    if feasibility_score == "Error": 
-        feasibility_score = "0"
     novelty_score = get_novelty_score(problem, solution, category)
-    if novelty_score == "Error":
-        novelty_score = "0"
     env_impact_score = get_env_impact_score(problem, solution, category)
-    if env_impact_score == "Error": 
-        env_impact_score = "0"
-    overall_score = str(int(feasibility_score) + int(novelty_score) + int(env_impact_score))
+
+    if re.search(".*[0-9]+.*", feasibility_score) == None:
+        feasibility_score = "0"
+    if re.search(".*[0-9]+.*", novelty_score) == None:
+        novelty_score = "0"
+    if re.search(".*[0-9]+.*", env_impact_score) == None:
+        novelty_score = "0"
+        
+    overall_score = str(int(re.search("[0-9]",feasibility_score).group()) + 
+                        int(re.search("[0-9]",novelty_score).group()) + 
+                        int(re.search("[0-9]",env_impact_score).group()))
 
     # Create a dictionary to hold the scores
     scores_dict = {

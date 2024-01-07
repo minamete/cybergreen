@@ -59,6 +59,11 @@
     width: 10rem !important;
     height: 5rem !important;
     margin: 1rem !important;
+
+    &:disabled {
+      background-color: grey !important;
+      cursor: not-allowed;
+    }
   }
 
   .submit-button {

@@ -84,8 +84,6 @@ def submission():
         user_input = request.json
         print(user_input)
         for input in user_input:
-            input["score"] = random.random() * 10 
-
             # Retrieve problem, solution from a single input
             problem = input["problem"]
             solution = input["solution"]
@@ -141,7 +139,11 @@ def chat():
     session['category'] = category
 
     # Get generated base evaluation response 
-    response = get_base_response(problem, solution)
+    string_res = get_base_response(problem, solution)
+    response = {
+        'str': string_res,
+        'category': category
+    }
 
     return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})
 
@@ -151,10 +153,10 @@ def eval_impact():
     Endpoint for handling additional responses based on user input.
     This can be called when the user clicks the "Environmental Impact" button.
     """
-    # Retrieve values from session
-    problem = session.get('problem')
-    solution = session.get('solution')
-    category = session.get('category')
+    # Get user query params from JSON data
+    problem = request.json['problem']
+    solution = request.json['solution']
+    category = request.json['category']
 
     if not problem or not solution or not category:
         return jsonify({"error": "Missing 'problem', 'solution', or 'category' in session."})

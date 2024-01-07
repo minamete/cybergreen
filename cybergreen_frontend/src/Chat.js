@@ -6,6 +6,11 @@ const Chat = () => {
   const [userProblemInput, setUserProblemInput] = useState("");
   const [userSolutionInput, setUserSolutionInput] = useState("");
   const [isChatLoading, setIsChatLoading] = useState(undefined);
+  const [lastMessage, setLastMessage] = useState({
+    problem: "",
+    solution: "",
+    category: "",
+  });
 
   useEffect(() => {
     // on init
@@ -17,12 +22,12 @@ const Chat = () => {
         ...messages,
         {
           type: "ai",
-          text: "Loading...",
+          text: "Loading... (This may take up to 1 minute)",
         },
       ]);
     } else if (isChatLoading === false) {
       // Remove the loading
-      if (messages[messages.length - 1].text === "Loading...")
+      if (messages[messages.length - 1].text.startsWith("Loading..."))
         setMessages(messages.slice(0, -1));
     }
   }, [isChatLoading]);
@@ -46,6 +51,10 @@ const Chat = () => {
       solution: userSolutionInput,
     };
 
+    lastMessage.problem = userProblemInput;
+    lastMessage.solution = userSolutionInput;
+
+    console.log(lastMessage)
     if (isSpam(userSolutionInput)) {
       return alert("Please provide a more comprehensive solution!");
     }
@@ -82,9 +91,12 @@ const Chat = () => {
         if (typeof responseData === "object") {
           const newAiMessage = {
             type: "ai",
-            text: responseData.response,
+            text: responseData.response.str,
           };
           setMessages((prevMessages) => [...prevMessages, newAiMessage]);
+          lastMessage.category = responseData.response.category;
+          console.log(lastMessage)
+
         } else {
           setMessages([
             ...messages,
@@ -121,14 +133,16 @@ const Chat = () => {
     setUserSolutionInput("");
   };
 
-  const handleSendPrediction = async (problem, solution, type, name) => {
+  const handleSendPrediction = async (type, name) => {
+    console.log(lastMessage)
+
     const predictSubmission = {
-      problem: problem,
-      solution: solution,
-      type: type,
+      problem: lastMessage.problem,
+      solution: lastMessage.solution,
+      category: lastMessage.category,
     };
 
-    if (isSpam(solution)) {
+    if (isSpam(lastMessage.solution)) {
       return alert("Please provide a more comprehensive solution!");
     }
 
@@ -149,7 +163,7 @@ const Chat = () => {
       setIsChatLoading(false);
 
       const responseData = await response.json();
-      console.log(responseData)
+      console.log(responseData);
       if (typeof responseData === "object") {
         let newAiMessage = {
           type: "ai",
@@ -201,9 +215,8 @@ const Chat = () => {
 
       const responseData = await response.json();
       if (typeof responseData === "object") {
-        let responseString = "";
         let responseCategories = [
-          "Environmental impact score",
+          "Overall impact score",
           "Feasibility score",
           "Novelty score",
           "Overall score",
@@ -287,24 +300,32 @@ const Chat = () => {
         <p className="second-text"></p>
       </div>
       <div className="input-row">
-        <p>Predict:</p>
+        <p>Get more comprehensive explanations on your last proposal:</p>
         <button
           className="predict-button"
-          onClick={() => handleSendPrediction(
-            userProblemInput,
-            userSolutionInput,
-            "impact",
-            "Environmental Impact"
-          )}
+          onClick={() => handleSendPrediction("impact", "Overall Impact")}
+          disabled={!!!lastMessage.category}
         >
-          Environmental Impact
+          Comprehensive Impact
         </button>
-        <button className="predict-button">Business and Financial Risks</button>
-        <button className="predict-button">Market Insights and Outlooks</button>
-        <button className="predict-button">Regulation and Compliance</button>
-        <button className="predict-button">Competitive Advantage</button>
-        <button className="predict-button">Idea and Concept Feasibility</button>
-        <button className="predict-button">Potential Funding Outlook</button>
+        <button className="predict-button" disabled={!!!lastMessage.category}>
+          Business and Financial Risks
+        </button>
+        <button className="predict-button" disabled={!!!lastMessage.category}>
+          Market Insights and Outlooks
+        </button>
+        <button className="predict-button" disabled={!!!lastMessage.category}>
+          Regulation and Compliance
+        </button>
+        <button className="predict-button" disabled={!!!lastMessage.category}>
+          Competitive Advantage
+        </button>
+        <button className="predict-button" disabled={!!!lastMessage.category}>
+          Idea and Concept Feasibility
+        </button>
+        <button className="predict-button" disabled={!!!lastMessage.category}>
+          Potential Funding Outlook
+        </button>
       </div>
     </div>
   );
