@@ -12,6 +12,7 @@
 }
 
 .header-row {
-    background-color: darkgreen;
+    background-color: rgba(65, 85, 50, 0.7) !important;
+    color: white !important;
 }
 

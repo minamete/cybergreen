@@ -1,38 +1,55 @@
+import { useEffect, useState } from "react";
 import "./Leaderboard.css";
 import Table from "react-bootstrap/Table";
 
 const Leaderboard = () => {
+  const [dbTable, setDBTable] = useState([]);
+
+  useEffect(() => {
+    // load the rows from the db
+    try {
+      fetch("http://localhost:5000/submission", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+         setDBTable(JSON.parse(data));
+        });
+    } catch (error) {
+      console.error("DB loading failed", error);
+    }
+  }, []);
+
   return (
     <>
-      <div class="main content">
+      <div className="main content">
         <h1 style={{ marginBottom: "2rem" }}> Leaderboard </h1>
         <Table striped hover bordered className="leaderboard">
           <thead>
             <tr>
               <th className="header-row">#</th>
               <th className="header-row">Problem</th>
-              <th> Solution</th>
-              <th>Score</th>
-              <th>Topic</th>
+              <th className="header-row">Solution</th>
+              <th className="header-row">Score</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Sample Problem</td>
-              <td>Sample Solution</td>
-              <td>25</td>
-              <td>ABC</td>
-            </tr>
-            <tr>
-              <td>2 </td>
-              <td>Sample Problem</td>
-              <td>Sample Solution</td>
-              <td>24</td>
-              <td>ABC</td>
-            </tr>
+            {dbTable.map((dbRow, index) => (
+              <tr key={index}>
+                <td>{index}</td>
+                <td className="problem-cell">{dbRow.problem}</td>
+                <td className="solution-cell">{dbRow.solution}</td>
+                <td>{dbRow.score}</td>
+              </tr>
+            ))}
           </tbody>
-        </Table>
+        </Table>{" "}
       </div>
     </>
   );

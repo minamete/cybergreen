@@ -4,6 +4,7 @@ from pymongo import MongoClient, errors
 from chat_fe import get_openai_response
 import os
 import sys
+import json
 from dotenv import load_dotenv
 from bson.json_util import dumps
 
@@ -35,10 +36,9 @@ def submission():
         
         return jsonify({
             "response": "Submission successful", 
-            "Access-Control-Allow-Origin": "*",
         })
-    all_submissions = submissions.find()
-    return jsonify({"response": dumps(all_submissions), "Access-Control-Allow-Origin": "*"})
+    all_submissions = dumps(submissions.find())
+    return jsonify(all_submissions)
 
 @app.route("/")
 def hello_world():
