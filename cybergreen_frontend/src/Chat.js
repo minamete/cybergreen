@@ -297,6 +297,10 @@ const Chat = () => {
           </button>
         </div>
       </div>
+      <div className="topics">
+        <p className="first-text">This solution has been sorted into the topic:</p>
+        <p className="second-text"></p>
+      </div>
       <div className="input-row">
         <p>Get more comprehensive explanations on your last proposal:</p>
         <button
