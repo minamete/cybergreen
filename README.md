@@ -12,4 +12,4 @@ For this web app to work, both the frontend and the backend must be running. Thi
 ## Backend
 1. Change (`cd`) into `cybergreen_backend`.
 2. Run `pip3 install -r requirements.txt`. If you're on a Mac ARM processor and getting a ModuleNotFound error with `openai`, try `export PATH=“/git/openai-quickstart-python:${PATH}”`.
-3. Run `python app.py`.
+3. Run `python app.py`. (If you are running with Python3, run `python3 app.py`.)
