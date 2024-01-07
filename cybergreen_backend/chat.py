@@ -64,7 +64,6 @@ def get_impact_eval(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-
 def get_business_risks_eval(problem, solution, category):
     """
     Generates a prompt for the OpenAI API to evaluate the business risks and threats of an idea based on the problem, solution, and its category.
@@ -161,7 +160,7 @@ def get_funding_eval(problem, solution, category):
     return response
 
 # ---------------------------------------------------------------------
-# EVALUATION PROMPTS
+# SCORING PROMPTS
 
 def get_feasibility_score(problem, solution, category):
     """
@@ -375,13 +374,6 @@ def predict_category(problem, solution, topic_labels_recall):
     category = get_openai_response(predict_topic_prompt)
     return category
 
-# ---------------------------------------------------------------------
-# IDEA EVALUATION & SCORING
-
-# user_input = "what are 10 commonly discussed solutions to combat plastic waste"
-# response = get_openai_response(user_input)
-# print("Assistant:", response)
-
 def get_predicted_category(problem, solution): 
     """
     Get the predicted topic of an input idea so that future evaluation
@@ -394,38 +386,3 @@ def get_predicted_category(problem, solution):
     # Predict category based on user-submitted problem and solution
     category = predict_category(problem, solution, topic_labels_recall)
     return category
-
-def eval_idea(problem, solution):
-    category = get_predicted_category(problem, solution)
-    base_eval = get_base_eval(problem, solution, category)
-    return base_eval
-
-def score_idea(problem, solution):
-    category = get_predicted_category(problem, solution)
-    scores = get_all_scores(problem, solution, category)
-    return scores
-
-def get_base_response(problem, solution):
-    """
-    Return the formatted string with base evaluation and scores.
-    """
-    base_eval = eval_idea(problem, solution)
-    scores = score_idea(problem, solution)
-
-    # Access individual scores
-    feasibility_score = scores['feasibility_score']
-    novelty_score = scores['novelty_score']
-    env_impact_score = scores['env_impact_score']
-    overall_score = scores['overall_score']
-
-    # Create a formatted string with the scores (auto-converts integers)
-    scores_string = (
-        f"Feasibility: {feasibility_score}. "
-        f"Novelty: {novelty_score}. "
-        f"Environmental Impact: {env_impact_score}. "
-        f"Overall: {overall_score}."
-    )
-
-    return base_eval + scores_string
-
-# run_chat()
