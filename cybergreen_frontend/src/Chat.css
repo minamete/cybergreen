@@ -35,6 +35,7 @@
   border-radius: 8px;
   align-self: flex-start; /* Align AI messages to the left */
   margin-right: -15%; /* Adjust the margin-left to extend off the left side */
+  max-width: 60vw;
 }
   
   .input-container {
@@ -44,18 +45,25 @@
     padding: 10px;
     width: 400px;
     margin: auto;
+
+    .input-col {
+      margin: 0 1rem;
+    }
   }
   
   input {
     flex: 1;
     padding: 8px;
     margin-right: 10px;
+    margin-bottom: 10px !important;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
   
   button {
     padding: 8px;
+    width: 8rem;
+    margin-bottom: 10px !important;
     border: none;
     border-radius: 5px;
     background-color: #4caf50;
