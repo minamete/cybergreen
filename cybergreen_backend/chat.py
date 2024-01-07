@@ -46,6 +46,7 @@ def get_base_eval(problem, solution, category):
     Could you analyze and provide insights into the competitive advantages of this business idea? Additionally, assess the feasibility of the business goals, considering the alignment with current market trends and technological capabilities.
 
     For a more comprehensive understanding of this business idea, including its market potential, risks, and strategic advantages, users are encouraged to explore further detailed analyses.
+    Your response should be at most 200 words, make it precise and informative.  
     """
     response = get_openai_response(prompt)
     return response
@@ -60,6 +61,7 @@ def get_impact_eval(problem, solution, category):
     Solution: {solution}
     Predicted Category: {category}
     Considering the problem and proposed solution, especially in relation to the category '{category}', please analyze the potential impact on environmental, social, and economic aspects.
+    Your response should be at most 200 words, make it precise and informative.  
     """
     response = get_openai_response(prompt)
     return response
@@ -74,6 +76,7 @@ def get_business_risks_eval(problem, solution, category):
     Solution: {solution}
     Predicted Category: {category}
     Business Risk Analysis: Considering the above problem and solution, especially in relation to the category '{category}', what could be the potential business risks and threats associated with this solution? Please analyze in terms of market viability, competition, financial stability, and regulatory challenges.
+    Your response should be at most 200 words, make it precise and informative.  
     """
     response = get_openai_response(prompt)
     return response
@@ -85,16 +88,19 @@ def get_market_insights_eval(problem, solution, category):
     # Market Size Prompt
     market_size_prompt = f"""
     Analyze the market size for a solution related to '{category}' which addresses the problem: {problem}. The solution proposed is: {solution}. Provide current figures and projected growth.
+    Your response should be at most 150 words, make it precise and informative.  
     """
     
     # Competitors Prompt
     competitors_prompt = f"""
     Identify the biggest competitors in the market for solutions related to '{category}', which addresses the problem: {problem}. The solution proposed is: {solution}. Discuss their strengths and weaknesses.
+    Your response should be at most 150 words, make it precise and informative.  
     """
 
     # Market Trends Prompt
     market_trends_prompt = f"""
     Discuss the current and emerging trends in the market relevant to '{category}' solutions, particularly those addressing the problem: {problem}. How might these trends impact the future of this market?
+    Your response should be at most 150 words, make it precise and informative.  
     """
 
     market_size_response = get_openai_response(market_size_prompt)
@@ -112,6 +118,7 @@ def get_regulation_compliance_eval(problem, solution):
     Considering the problem '{problem}' and the proposed solution '{solution}', 
     what are the regulatory and compliance considerations that need to be addressed? 
     Include potential regulatory challenges and necessary compliance measures.
+    Your response should be at most 200 words, make it precise and informative.  
     """
    
     response = get_openai_response(prompt) 
@@ -125,6 +132,7 @@ def get_competitive_advantage_eval(problem, solution):
     Given the problem '{problem}' and the solution '{solution}', 
     what is the competitive advantage and unique selling proposition (USP) of this solution? 
     Explain how it stands out from competitors and its potential market impact.
+    Your response should be at most 200 words, make it precise and informative.  
     """
    
     response = get_openai_response(prompt)  
@@ -142,6 +150,7 @@ def get_feasibility_eval(problem, solution, category):
     Feasibility Analysis: Considering the solution '{solution}' for the problem '{problem}', 
     especially in relation to the category '{category}', assess the feasibility of this solution. 
     Discuss any challenges or issues that might make the solution unfeasible or difficult to implement.
+    Your response should be at most 200 words, make it precise and informative.  
     """
     response = get_openai_response(prompt)
     return response
@@ -155,6 +164,7 @@ def get_funding_eval(problem, solution, category):
     Solution: {solution}
     Predicted Category: {category}
     Based on this business idea, which focuses on addressing '{problem}' with the solution '{solution}' in the category of '{category}', what are the potential government and private funding resources available? Please provide information on relevant grants, investors, and funding programs that could support this type of initiative.
+    Your response should be at most 200 words, make it precise and informative.  
     """
     response = get_openai_response(prompt)
     return response
