@@ -19,4 +19,4 @@ For this web app to work, both the frontend and the backend must be running. Thi
 - MONGO_LINK (mongoDB atlas)
 
 ## Other
-If you are getting an error related to CORS on the console, try going to 127.0.0.1:3000/ instead.
+If you are getting an error related to CORS on the console, try going to 127.0.0.1:3000/ instead. Likewise, if you are getting an error on that link, go to localhost:3000 instead. If it still doesn't work, go back to your original link.
