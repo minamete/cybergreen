@@ -1,6 +1,6 @@
 from gensim import corpora, models
 
-def train_and_save_lda_model(data, num_topics, model_path):
+def train_and_save_lda_model(data, num_topics, lda_model_path):
    # Create a dictionary and corpus for topic modeling
     dictionary = corpora.Dictionary(data)
     corpus = [dictionary.doc2bow(text) for text in data]
@@ -10,10 +10,14 @@ def train_and_save_lda_model(data, num_topics, model_path):
     # Lower eta -> Topics are composed of fewer dominant words
     lda_model = models.LdaModel(corpus, num_topics=num_topics, id2word=dictionary, passes=20, alpha=0.1, eta=0.1)
 
-    # Save the trained model
-    lda_model.save(model_path)
+    # Print topics and associated words in order to interpret!
+    for topic_id, topic_words in lda_model.print_topics():
+        print(f"Topic {topic_id + 1}: {topic_words}")
 
-def load_lda_model(model_path):
+    # Save the trained model
+    lda_model.save(lda_model_path)
+
+def load_lda_model(lda_model_path):
     # Load the LDA model from the saved file
-    lda_model = models.LdaModel.load(model_path)
+    lda_model = models.LdaModel.load(lda_model_path)
     return lda_model
