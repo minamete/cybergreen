@@ -35,9 +35,9 @@ const CsvFileUploader = () => {
           problem: row['problem'], // Replace 'Column2' with the actual header of the second column
           solution: row['solution'], // Replace 'Column3' with the actual header of the third column
         }));
-  
+
         console.log('Parsed CSV data:', parsedData);
-  
+
         // Now, make an asynchronous call outside the synchronous block
         sendParsedDataToBackend(parsedData);
       },
@@ -46,23 +46,48 @@ const CsvFileUploader = () => {
       },
     });
   };
-  
+
   const sendParsedDataToBackend = async (parsedData) => {
     try {
       // Send a POST request to the Flask backend with the parsed data
-      const response = await axios.post('http://localhost:5000/process_csv', { data: parsedData });
+      const response = await axios.post('http://localhost:5000/process_csv', parsedData);
       console.log(response.data);
-      // Handle the response if needed
+
+      // Now, trigger the download of the updated dataset
+      handleDownloadUpdatedDataset();
     } catch (error) {
       console.error('Error sending data to Flask backend:', error.message);
     }
   };
+
+  const handleDownloadUpdatedDataset = async () => {
+    try {
+      // Send a GET request to the Flask backend to get the download link for the updated dataset
+      const response = await axios.get('http://localhost:5000/download_updated_dataset', {
+        responseType: 'blob', // Specify the response type as blob
+      });
+
+      // Create a link element and simulate a click to trigger the download
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(new Blob([response.data]));
+      link.download = 'updated_dataset.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading updated dataset:', error.message);
+    }
+  };
+
   return (
     <div>
       <input type="file" onChange={handleFileChange} />
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <button onClick={handleParseCsv} disabled={!csvFile}>
         Submit
+      </button>
+      <button onClick={handleDownloadUpdatedDataset}>
+        Download Data Insights
       </button>
     </div>
   );

@@ -1,10 +1,19 @@
 from lda_helper import preprocess_text
 from gensim import corpora, models
-
 import pandas as pd
 
+CONF_THRESHOLD = 0.4
+topic_labels = {
+  0: "Fashion and Clothing Industry",
+  1: "Electronic Waste and Recycling",
+  2: "Paper and Energy Conservation",
+  3: "Plastic Packaging and Business",
+  4: "Packaging and Energy Efficiency",
+  5: "Electronic Waste Recycling Platform"
+}
+
 def train_and_interpret_lda_model(data, num_topics):
-   # Create a dictionary and corpus for topic modeling
+    # Create a dictionary and corpus for topic modeling
     dictionary = corpora.Dictionary(data)
     corpus = [dictionary.doc2bow(text) for text in data]
 
@@ -23,7 +32,8 @@ def train_and_interpret_lda_model(data, num_topics):
     with open('lda_topics_dist.txt', 'w') as f:
         f.write(lda_topics_dist)
 
-    # return lda_output_string
+    # Return topics distribution
+    return lda_model, lda_topics_dist
 
 def run_lda_training(dataset):
     # Load dataset
@@ -42,13 +52,28 @@ def run_lda_training(dataset):
     # Apply the preprocessing function to each document in the dataset
     tokenized_text = text_data.apply(preprocess_text)
 
-    # Display the tokenized text for the first document
-    # print(tokenized_text.iloc[0])
-
     # Set parameters
     data = tokenized_text
     num_topics = 6
 
-    return train_and_interpret_lda_model(data, num_topics)
+    # Train and interpret LDA model
+    lda_model, lda_topics_dist = train_and_interpret_lda_model(data, num_topics)
 
-run_lda_training("dataset.csv")
+    dictionary = corpora.Dictionary(data)
+    corpus = [dictionary.doc2bow(text) for text in data]
+
+    # Assign topics and probabilities to each document in the dataset
+    topic_data = [max(lda_model[doc], key=lambda x: x[1]) for doc in lda_model[corpus]]
+    df['topic'] = [topic_labels[topic[0]] if topic[1] >= CONF_THRESHOLD else "Other" for topic in topic_data]
+    df['topic_probability'] = [topic[1] for topic in topic_data]
+
+    # Save the updated DataFrame to a new CSV file
+    updated_csv_path = 'updated_dataset.csv'
+    df.to_csv(updated_csv_path, index=False, encoding='utf-8')
+
+    return lda_topics_dist, updated_csv_path
+
+# Example usage
+topics_dist, updated_csv_path = run_lda_training("dataset.csv")
+print("LDA Topics Distribution:\n", topics_dist)
+print("Updated CSV saved at:", updated_csv_path)

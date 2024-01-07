@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, send_file, session
 from flask_cors import CORS
 from pymongo import MongoClient, errors
 from chat import get_predicted_category, get_all_scores
@@ -9,6 +9,8 @@ import sys
 import random
 from dotenv import load_dotenv
 from bson.json_util import dumps
+import csv
+from train_lda_model import train_and_interpret_lda_model
 
 load_dotenv()
 mongo_url = os.getenv("MONGO_LINK")
@@ -36,6 +38,22 @@ def hello_world():
 @app.route("/chat")
 def test_chat(user_input):
     return get_openai_response(user_input)
+
+@app.route('/download_updated_dataset', methods=['GET'])
+def download_updated_dataset():
+    try:
+        # Provide the path to the updated CSV file
+        updated_csv_path = 'updated_dataset.csv'
+
+        # Check if the file exists
+        if os.path.exists(updated_csv_path):
+            # Return the file for download
+            return send_file(updated_csv_path, as_attachment=True)
+        else:
+            return jsonify({'success': False, 'error': 'File not found'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
+
 
 # ---------------------------------------------------------------------
 # HELPER FUNCTIONS - IDEA EVALUATION & SCORING
@@ -178,15 +196,31 @@ def process_csv():
 
     try:
         data = request.json
-        # Perform actions with each pair of problem and solution
-        for row in data:
-            problem = row['problem']
-            solution = row['solution']
-            # Perform your custom logic with problem and solution here
-            print(f"Problem: {problem}, Solution: {solution}")
+        # Path to save the CSV file
+        csv_file_path = 'user_input.csv'
+
+        print(data)
+
+        # Open the CSV file in write mode with newline=''
+        with open(csv_file_path, 'w', newline='') as csv_file:
+            # Create a CSV writer
+            csv_writer = csv.writer(csv_file)
+
+            # Write the header
+            csv_writer.writerow(['problem', 'solution'])
+
+            # Write each pair as a row
+            for row in data:
+                print(row)
+                problem = row.get('problem', '')  # Using get to handle potential missing keys
+                solution = row.get('solution', '')
+                csv_writer.writerow([problem, solution])
+                print(f"Problem: {problem}, Solution: {solution}")
+
+        train_and_interpret_lda_model(csv_file_path)
 
         # Do not set Access-Control-Allow-Origin to '*' in the actual response
-        return jsonify({'success': True})
+        return jsonify({'success': True, 'csv_file_path': csv_file_path})
 
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
