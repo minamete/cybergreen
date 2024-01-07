@@ -10,7 +10,7 @@ applications:
           commands:
             - npm run build
       artifacts:
-        baseDirectory: cybergreen_frontend/build/
+        baseDirectory: cybergreen_frontend/build
         files:
             - '**/*'
       cache:
