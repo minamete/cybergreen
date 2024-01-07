@@ -1,6 +1,6 @@
 Topic 1: Fashion and Clothing Industry
 Topic 2: Electronic Waste and Recycling
-Topic 3: Energy and Vehicle Systems
+Topic 3: Paper and Energy Systems
 Topic 4: Plastic Packaging and Containers
-Topic 5: Packaging and Energy Efficiency
-Topic 6: E-Waste Recycling and Material Recovery
+Topic 5: Packaging and Energy Systems
+Topic 6: Electronic Waste and Recycling

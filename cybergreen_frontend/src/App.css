@@ -31,7 +31,6 @@
   max-width: calc(50% - 10px); /* Set maximum width for Chat, considering the gap */
   margin-right: 5px; /* Adjust as needed for space between Chat and Upload */
   background-color: #e0e0e0;
-  height: 400px;
 }
 
 .Upload {
