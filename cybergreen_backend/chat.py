@@ -135,7 +135,7 @@ def regulatory_compliance_assessment(problem, solution):
     Include potential regulatory challenges and necessary compliance measures.
     """
     # Call the OpenAI API with the prompt
-    # response = openai_api_call(prompt)  # Replace with actual API call
+    response = get_openai_response(prompt)  # Replace with actual API call
     return prompt  # Returning prompt for demonstration
 
 def competitive_advantage_usp(problem, solution):
@@ -148,7 +148,7 @@ def competitive_advantage_usp(problem, solution):
     Explain how it stands out from competitors and its potential market impact.
     """
     # Call the OpenAI API with the prompt
-    # response = openai_api_call(prompt)  # Replace with actual API call
+    response = get_openai_response(prompt)  
     return prompt  # Returning prompt for demonstration
 
 def evaluate_solution_feasibility(problem, solution, category):
@@ -168,5 +168,21 @@ def evaluate_solution_feasibility(problem, solution, category):
     # Assuming you have a function `get_openai_response` to interact with OpenAI API
     response = get_openai_response(prompt)
     return response
+
+def identify_funding_resources(problem, solution, category):
+    """
+    Generates a prompt for the OpenAI API to identify potential government and private funding resources for a business idea.
+    """
+    prompt = f"""
+    Problem: {problem}
+    Solution: {solution}
+    Predicted Category: {category}
+    Based on this business idea, which focuses on addressing '{problem}' with the solution '{solution}' in the category of '{category}', what are the potential government and private funding resources available? Please provide information on relevant grants, investors, and funding programs that could support this type of initiative.
+    """
+    
+    # Assuming you have a function `get_openai_response` to interact with OpenAI API
+    response = get_openai_response(prompt)
+    return response
+
 
 
