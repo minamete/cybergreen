@@ -24,7 +24,7 @@ def train_and_interpret_lda_model(data, num_topics):
 
 def run_lda_training(dataset):
     # Load dataset
-    df = pd.read_csv(dataset)
+    df = pd.read_csv(dataset, encoding='latin-1')
 
     # Quick character length spam filter
     def spam_length_filter(word):

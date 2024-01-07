@@ -222,3 +222,5 @@ def predict_topic(problem, solution):
 user_input = "what are 10 commonly discussed solutions to combat plastic waste"
 response = get_openai_response(user_input)
 print("Assistant:", response)
+
+get_interpreted_topics()
