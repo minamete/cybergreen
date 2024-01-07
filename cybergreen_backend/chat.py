@@ -218,7 +218,11 @@ def predict_topic(problem, solution):
 # Augmenting the user input with the predicted topic, 
 # we are now able to call any of the evaluation prompts 
 
-# Test usage here
-user_input = "what are 10 commonly discussed solutions to combat plastic waste"
-response = get_openai_response(user_input)
-print("Assistant:", response)
+# ---------------------------------------------------------------------
+# TESTING
+
+# user_input = "what are 10 commonly discussed solutions to combat plastic waste"
+# response = get_openai_response(user_input)
+# print("Assistant:", response)
+
+print(get_interpreted_topics())

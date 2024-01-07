@@ -41,6 +41,9 @@ def preprocess_text(text):
 
     return tokens
 
+# ---------------------------------------------------------------------
+# DON'T USE
+
 # Requires a trained LDA model to input
 def classify_new_input(lda_model, new_input, topic_labels, conf_threshold=0.5):
     tokenized_input = preprocess_text(new_input) 
