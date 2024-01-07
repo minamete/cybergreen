@@ -36,7 +36,21 @@ def get_openai_response(user_input):
 # ---------------------------------------------------------------------
 # EVALUATION PROMPTS
 
-def evaluate_idea_impact(problem, solution, category):
+def get_base_eval(problem, solution, category):
+    """
+    Generates a prompt that provides an overview of the feasibility and competitive advantages of a business.
+    The prompt also guides the user to click on buttons for more detailed information.
+    """
+    prompt = f"""
+    We're evaluating a business idea in the '{category}' category, aimed at addressing the problem: '{problem}'. The proposed solution is: '{solution}'. 
+    Could you analyze and provide insights into the competitive advantages of this business idea? Additionally, assess the feasibility of the business goals, considering the alignment with current market trends and technological capabilities.
+
+    For a more comprehensive understanding of this business idea, including its market potential, risks, and strategic advantages, users are encouraged to explore further detailed analyses.
+    """
+    response = get_openai_response(prompt)
+    return response
+
+def get_impact_eval(problem, solution, category):
     """
     Generates a prompt for the OpenAI API to evaluate the impact of an idea based on the problem, solution, and its category.
     """
@@ -51,7 +65,7 @@ def evaluate_idea_impact(problem, solution, category):
     return response
 
 
-def evaluate_business_risks(problem, solution, category):
+def get_business_risks_eval(problem, solution, category):
     """
     Generates a prompt for the OpenAI API to evaluate the business risks and threats of an idea based on the problem, solution, and its category.
     """
@@ -65,7 +79,7 @@ def evaluate_business_risks(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-def get_market_insights(problem, solution, category):
+def get_market_insights_eval(problem, solution, category):
     """
     Generates prompts for the OpenAI API to obtain insights on market size, biggest competitors, and general market trends for a given solution.
     """
@@ -94,8 +108,7 @@ def get_market_insights(problem, solution, category):
         "Market Trends Analysis": market_trends_response
     }
 
-
-def regulatory_compliance_assessment(problem, solution):
+def get_regulation_compliance_eval(problem, solution):
     """
     Generate a prompt for evaluating the regulatory and compliance aspects of a solution.
     """
@@ -108,7 +121,7 @@ def regulatory_compliance_assessment(problem, solution):
     response = get_openai_response(prompt) 
     return response 
 
-def competitive_advantage_usp(problem, solution):
+def get_competitive_advantage_eval(problem, solution):
     """
     Generate a prompt for evaluating the competitive advantage and unique selling proposition of a solution.
     """
@@ -121,7 +134,7 @@ def competitive_advantage_usp(problem, solution):
     response = get_openai_response(prompt)  
     return response  
 
-def evaluate_solution_feasibility(problem, solution, category):
+def get_feasibility_eval(problem, solution, category):
     """
     Generates a prompt for the OpenAI API to evaluate the feasibility of a solution and identify potential issues.
     """
@@ -137,7 +150,7 @@ def evaluate_solution_feasibility(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-def identify_funding_resources(problem, solution, category):
+def get_funding_eval(problem, solution, category):
     """
     Generates a prompt for the OpenAI API to identify potential government and private funding resources for a business idea.
     """
@@ -150,21 +163,10 @@ def identify_funding_resources(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-def base_response(problem, solution, category):
-    """
-    Generates a prompt that provides an overview of the feasibility and competitive advantages of a business.
-    The prompt also guides the user to click on buttons for more detailed information.
-    """
-    prompt = f"""
-    We're evaluating a business idea in the '{category}' category, aimed at addressing the problem: '{problem}'. The proposed solution is: '{solution}'. 
-    Could you analyze and provide insights into the competitive advantages of this business idea? Additionally, assess the feasibility of the business goals, considering the alignment with current market trends and technological capabilities.
+# ---------------------------------------------------------------------
+# EVALUATION PROMPTS
 
-    For a more comprehensive understanding of this business idea, including its market potential, risks, and strategic advantages, users are encouraged to explore further detailed analyses.
-    """
-    response = get_openai_response(prompt)
-    return response
-    
-def feasibility_score_prompt(problem, solution, category):
+def get_feasibility_score(problem, solution, category):
     """
     Generates a prompt for an AI model to output a feasibility score from 1 to 10 for a business,
     based on the provided problem, solution, and category. Includes examples for training.
@@ -194,12 +196,12 @@ def feasibility_score_prompt(problem, solution, category):
     Problem: {problem}
     Solution: {solution}
     Category: {category}
-    Feasibility Score: [[Provide a feasibility score from 1 to 10]
+    Feasibility Score: [Provide a feasibility score from 1 to 10]
     """
     response = get_openai_response(prompt)
     return response
 
-def novelty_score(problem, solution, category):
+def get_novelty_score(problem, solution, category):
     """
     Generates a prompt for an AI model to output a novelty score from 1 to 10 for a business,
     based on the provided problem, solution, and category. Includes examples for training.
@@ -234,7 +236,7 @@ def novelty_score(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-def generate_impact_score_prompt(problem, solution, category):
+def get_impact_score(problem, solution, category):
     """
     Generates a prompt for an AI model to assess the environmental impact of a business idea.
     The impact is rated on a scale from 1 to 10, with 10 being the most positive impact.
@@ -278,7 +280,7 @@ def generate_impact_score_prompt(problem, solution, category):
 dataset = "dataset.csv"
 topic_labels = ""
 
-# TODO
+# TODO: Remove
 def strip_user_input(user_input):
     # Strip user input to get problem and solution
     # Or get the API to be able to do this
@@ -341,7 +343,7 @@ def get_interpreted_topics():
         topic_labels = file.read()
     return f"According to your most recent knowledge, the possible topics for classification are: '{topic_labels}'"
 
-def predict_topic(problem, solution, topic_labels_recall): 
+def predict_category(problem, solution, topic_labels_recall): 
     """
     Classify new user input into one of the interpreted topic labels.
     """
@@ -353,14 +355,11 @@ def predict_topic(problem, solution, topic_labels_recall):
 
     '{topic_labels_recall}'
 
-    Predict the relevant topic of the new idea. Respond in one concise sentence with the most likely topic name, your level of confidence in that classification, and a brief description in how you know that the idea can contribute to innovation in that topic. If you are not confident that any topic is appropriate, say "Other," and concisely explain your reasoning.
+    Predict the relevant topic/category of the new idea. Respond in one concise sentence with the most likely topic name, your level of confidence in that classification, and a brief description in how you know that the idea can contribute to innovation in that topic. If you are not confident that any topic is appropriate, say "Other," and concisely explain your reasoning.
     """
 
     category = get_openai_response(predict_topic_prompt)
     return category
-
-# Augmenting the user input with the predicted topic, 
-# we are now able to call any of the evaluation prompts 
 
 # ---------------------------------------------------------------------
 # TESTING
@@ -375,11 +374,12 @@ def eval_idea(problem, solution):
     topic_labels_recall = get_interpreted_topics()
 
     # Retrieve user problem and solution
-    category = predict_topic(problem, solution, topic_labels_recall)
+    category = predict_category(problem, solution, topic_labels_recall)
 
     # Augmenting the user input with the predicted topic, 
     # we are now able to call any of the evaluation prompts 
+    base_response = get_base_eval(problem, solution, category)
     
-    return category
+    return base_response
 
 # run_chat()

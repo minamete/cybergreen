@@ -66,6 +66,7 @@ def chat():
     user_problem = request.json['problem']
     user_solution = request.json['solution']
 
+    # Return base evaluation response
     response = eval_idea(user_problem, user_solution)
     return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})
 
