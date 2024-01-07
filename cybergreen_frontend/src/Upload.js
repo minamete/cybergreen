@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Papa from 'papaparse';
+import axios from 'axios';
 
 const CsvFileUploader = () => {
   const [csvFile, setCsvFile] = useState(null);
@@ -19,27 +21,47 @@ const CsvFileUploader = () => {
       return;
     }
 
-    // Additional verification for CSV format (you can customize this based on your specific format)
-    // For example, check if the CSV file has a specific header or structure
-
     setError(null);
     setCsvFile(file);
   };
 
-  const handleSubmit = () => {
-    
-
-    console.log('Submitted CSV file:', csvFile);
+  const handleParseCsv = () => {
+    // Use papaparse to parse the CSV file
+    Papa.parse(csvFile, {
+      header: true,
+      complete: (result) => {
+        // Extract values from columns 2 and 3 for each row
+        const parsedData = result.data.map((row) => ({
+          problem: row['problem'], // Replace 'Column2' with the actual header of the second column
+          solution: row['solution'], // Replace 'Column3' with the actual header of the third column
+        }));
+  
+        console.log('Parsed CSV data:', parsedData);
+  
+        // Now, make an asynchronous call outside the synchronous block
+        sendParsedDataToBackend(parsedData);
+      },
+      error: (err) => {
+        console.error('Error parsing CSV:', err.message);
+      },
+    });
   };
-
+  
+  const sendParsedDataToBackend = async (parsedData) => {
+    try {
+      // Send a POST request to the Flask backend with the parsed data
+      const response = await axios.post('http://localhost:5000/process_csv', { data: parsedData });
+      console.log(response.data);
+      // Handle the response if needed
+    } catch (error) {
+      console.error('Error sending data to Flask backend:', error.message);
+    }
+  };
   return (
     <div>
-    <p>
-        Or...submit several problems and solutions here! (please upload your file in .csv format)
-    </p>
       <input type="file" onChange={handleFileChange} />
       {error && <div style={{ color: 'red' }}>{error}</div>}
-      <button onClick={handleSubmit} disabled={!csvFile}>
+      <button onClick={handleParseCsv} disabled={!csvFile}>
         Submit
       </button>
     </div>
