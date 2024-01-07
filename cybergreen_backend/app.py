@@ -1,11 +1,26 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from pymongo import MongoClient
+from pymongo import MongoClient, errors
 from chat_fe import get_openai_response
+import os
+import sys
+from dotenv import load_dotenv
+from bson.json_util import dumps
+
+load_dotenv()
+mongo_url = os.getenv("MONGO_LINK")
 
 app = Flask(__name__)
 CORS(app)
-client = MongoClient('localhost', 27017)
+
+try:
+  client = MongoClient(mongo_url)
+  
+# return a friendly error if a URI error is thrown 
+except errors.ConfigurationError:
+  print("An Invalid URI host error was received. Is your Atlas host name correct in your connection string?")
+  sys.exit(1)
+  
 db = client.flask_db
 submissions = db.submissions
 
@@ -14,21 +29,15 @@ def submission():
     print("hi")
     if request.method=="POST":
         # Submit the submission
-        user_input = request.args.get('submit')
-        problem = user_input[0]
-        solution = user_input[1]
-        score = user_input[2]
-         
-        # Run through score
-        # topic = request.args.get('topic')
-        
+        user_input = request.json
+        submissions.insert_one(user_input)
         
         return jsonify({
             "response": "Submission successful", 
             "Access-Control-Allow-Origin": "*",
         })
     all_submissions = submissions.find()
-    return jsonify({"response": "abc", "Access-Control-Allow-Origin": "*"})
+    return jsonify({"response": dumps(all_submissions), "Access-Control-Allow-Origin": "*"})
 
 @app.route("/")
 def hello_world():
