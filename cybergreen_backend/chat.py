@@ -152,6 +152,20 @@ def identify_funding_resources(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
+def base_response(problem, solution, category):
+    """
+    Generates a prompt that provides an overview of the feasibility and competitive advantages of a business.
+    The prompt also guides the user to click on buttons for more detailed information.
+    """
+    prompt = f"""
+    We're evaluating a business idea in the '{category}' category, aimed at addressing the problem: '{problem}'. The proposed solution is: '{solution}'. 
+    Could you analyze and provide insights into the competitive advantages of this business idea? Additionally, assess the feasibility of the business goals, considering the alignment with current market trends and technological capabilities.
+
+    For a more comprehensive understanding of this business idea, including its market potential, risks, and strategic advantages, users are encouraged to explore further detailed analyses.
+    """
+    response = get_openai_response(prompt)
+    return response
+
 # ---------------------------------------------------------------------
 # OVERALL WORKFLOW
 
