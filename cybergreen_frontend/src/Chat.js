@@ -47,6 +47,10 @@ const Chat = () => {
       solution: userSolutionInput,
     };
 
+    if (isSpam(userSolutionInput)) {
+      return alert("Please provide a more comprehensive solution!");
+    }
+
     try {
       setIsChatLoading(true);
 
@@ -114,6 +118,10 @@ const Chat = () => {
       problem: userProblemInput,
       solution: userSolutionInput,
     };
+
+    if (isSpam(userSolutionInput)) {
+      return alert("Please provide a more comprehensive solution!");
+    }
 
     try {
       const response = await fetch("http://localhost:5000/submission", {
@@ -205,3 +213,7 @@ const Chat = () => {
 };
 
 export default Chat;
+
+const isSpam = (text) => {
+  return text.length < 50;
+}
