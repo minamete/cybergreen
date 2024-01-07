@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Chat.css'; // Import the CSS file
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -9,39 +10,48 @@ const Chat = () => {
   };
 
   const handleSendMessage = async () => {
-    // Add the user's message to the messages state
-    setMessages([...messages, { type: 'user', text: userInput }]);
-
-    // Call the Python script to get OpenAI response
-    try {
-        const response = await fetch('http://localhost:3000/api/get_openai_response', {
-        method: 'POST',
-        headers: {
+      // Add the user's message to the messages state
+      const newUserMessage = { type: 'user', text: userInput };
+      setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+    
+      try {
+        const response = await fetch('http://localhost:5000/user_chat?user_input=' + encodeURIComponent(userInput), {
+          method: 'GET',
+          headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user_input: userInput }),
-});
-          
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch OpenAI response');
+          },
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to fetch OpenAI response');
+        }
+    
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+          // If the response body is JSON, handle it as before
+          const responseData = await response.json();
+          if (typeof responseData === 'object') {
+            const newAiMessage = { type: 'ai', text: responseData.response };
+            setMessages((prevMessages) => [...prevMessages, newAiMessage]);
+          } else {
+            console.error('Invalid JSON format in OpenAI response:', responseData);
+          }
+        } else {
+          // If the response body is not JSON, treat it as plain text
+          const responseText = await response.text();
+          const newAiMessage = { type: 'ai', text: responseText };
+          setMessages((prevMessages) => [...prevMessages, newAiMessage]);
+        }
+    
+      } catch (error) {
+        console.error('Error fetching OpenAI response:', error);
       }
-
-      const responseData = await response.json();
-      console.log('OpenAI Response:', responseData);
-
-    // Add the assistant's reply to the messages state
-        setMessages([...messages, { type: 'ai', text: responseData }]);
-
-      // Add the assistant's reply to the messages state
-      setMessages([...messages, { type: 'ai', text: responseData }]);
-    } catch (error) {
-      console.error('Error fetching OpenAI response:', error);
-    }
-
-    // Clear the user input
-    setUserInput('');
-  };
+    
+      // Clear the user input
+      setUserInput('');
+    };
+  
+  
 
   return (
     <div className="chat-container">
@@ -61,8 +71,11 @@ const Chat = () => {
           placeholder="Type your message..."
           value={userInput}
           onChange={handleUserInput}
+          className="input-field"
         />
-        <button onClick={handleSendMessage}>Send</button>
+        <button onClick={handleSendMessage} className="send-button">
+          Send
+        </button>
       </div>
     </div>
   );

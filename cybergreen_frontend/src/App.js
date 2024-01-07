@@ -31,7 +31,7 @@ function App() {
         <div className="center-align">
           {/* Use Link to navigate to the 'evaluate' route */}
           <Link to="/evaluate">
-            <button className="evaluate-button">Evaluate Your Ideas</button>
+            <button className="evaluate-button home-button">Evaluate Your Ideas</button>
           </Link>
         </div>
       </div>
