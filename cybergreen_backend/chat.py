@@ -2,24 +2,33 @@ from dotenv import load_dotenv
 import os
 from openai import OpenAI
 
-from lda_helper import load_lda_model, classify_new_input
+from train_lda_model import run_lda_training
 
-# Load pre-trained LDA model
-lda_model_path = "models/lda_model"
-loaded_lda_model = load_lda_model(lda_model_path)
+dataset = "dataset.csv"
 
-def predict_topic(user_input):
-    # Define human-readable topic labels based on trained LDA model
-    topic_labels = {
-        0: "Sustainable Packaging",
-        1: "Waste Reduction",
-        2: "Sustainable Fashion",
-        3: "Circular Economy",
-        4: "Electronic Waste",
-        # Add more as needed
-    }
+# IN PROGRESS
+def interpret_topics():
+    # Interpret topics using ChatGPT using concatenated data
+    lda_output_string = run_lda_training(dataset)
 
-    return classify_new_input(loaded_lda_model, user_input, topic_labels)
+    interpret_prompt = lda_output_string + "\n" + "Please provide a brief interpretation of the topics."
+
+    # Use API to interpret the topics 
+
+# IN PROGRESS
+def predict_topic(user_input): 
+    # Example prompt for classifying new data
+    new_data_prompt = """
+    Problem: [New Problem Text]
+    Solution: [New Solution Text]
+    Interpretation: [ChatGPT interpretation of topics]
+    What topic does this new data align with?
+    """
+
+    # Use API to predict the relevant topic of new data
+    
+
+# Augment input to ChatGPT with predicted topic
 
 def get_openai_response(user_input):
 

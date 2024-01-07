@@ -16,7 +16,7 @@ nltk.download('wordnet')
 # nltk.download('words')
 
 def preprocess_text(text):
-    custom_stopwords = ['circular', 'economy', 'problem', 'solution', 'business', 'would', 'could', 'also', 'waste', 'environmental', 'sustainability']
+    custom_stopwords = ['circular', 'economy', 'problem', 'solution', 'model', 'business', 'would', 'could', 'also', 'waste', 'environmental', 'sustainability']
 
     # Check for NaN values
     if pd.isnull(text):
@@ -41,11 +41,7 @@ def preprocess_text(text):
 
     return tokens
 
-def load_lda_model(lda_model_path):
-    # Load the pre-trained LDA model
-    lda_model = LdaModel.load(lda_model_path)
-    return lda_model
-
+# Requires a trained LDA model to input
 def classify_new_input(lda_model, new_input, topic_labels, conf_threshold=0.5):
     tokenized_input = preprocess_text(new_input) 
    
