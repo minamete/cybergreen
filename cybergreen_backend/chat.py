@@ -205,7 +205,7 @@ def get_feasibility_score(problem, solution, category):
     Feasibility Score: [Provide a feasibility score from 1 to 10]
     """
     response = get_openai_response(prompt)
-    return int(response)
+    return response
 
 def get_novelty_score(problem, solution, category):
     """
@@ -240,7 +240,7 @@ def get_novelty_score(problem, solution, category):
     Novelty Score: [Provide a novelty/uniqueness score from 1 to 10]
     """
     response = get_openai_response(prompt)
-    return int(response)
+    return response
 
 def get_env_impact_score(problem, solution, category):
     """
@@ -278,7 +278,7 @@ def get_env_impact_score(problem, solution, category):
     """
 
     response = get_openai_response(prompt)
-    return int(response)
+    return response
 
 def get_all_scores(problem, solution, category):
     feasibility_score = get_feasibility_score(problem, solution, category)

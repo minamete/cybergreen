@@ -85,6 +85,7 @@ def submission():
             input["score"] = random.random() * 10 
 
             # TODO: Retrieve problem, solution from a single input
+            # problem = input["problem"]
 
             # Save predicted category to db
             # category = get_predicted_category(problem, solution)
@@ -132,33 +133,33 @@ def chat():
     category = get_predicted_category(problem, solution)
 
     # Save values to current session
-    session['problem'] = problem
-    session['solution'] = solution
-    session['category'] = category
+    # session['problem'] = problem
+    # session['solution'] = solution
+    # session['category'] = category
 
     # Get generated base evaluation response 
     response = get_base_response(problem, solution)
 
     return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})
 
-@app.route("/impact", methods=['POST'])
-def eval_impact():
-    """
-    Endpoint for handling additional responses based on user input.
-    This can be called when the user clicks buttons for more responses.
-    """
-    # Retrieve values from session
-    problem = session.get('problem')
-    solution = session.get('solution')
-    category = session.get('category')
+# @app.route("/impact", methods=['POST'])
+# def eval_impact():
+#     """
+#     Endpoint for handling additional responses based on user input.
+#     This can be called when the user clicks buttons for more responses.
+#     """
+#     # Retrieve values from session
+#     # problem = session.get('problem')
+#     # solution = session.get('solution')
+#     # category = session.get('category')
 
-    if not problem or not solution or not category:
-        return jsonify({"error": "Missing 'problem', 'solution', or 'category' in session."})
+#     if not problem or not solution or not category:
+#         return jsonify({"error": "Missing 'problem', 'solution', or 'category' in session."})
 
-    # Perform impact evaluation
-    impact_eval = get_impact_eval(problem, solution, category)
+#     # Perform impact evaluation
+#     impact_eval = get_impact_eval(problem, solution, category)
 
-    return jsonify({"response": impact_eval, "Access-Control-Allow-Origin": "*"})
+#     return jsonify({"response": impact_eval, "Access-Control-Allow-Origin": "*"})
 
 @app.route('/process_csv', methods=['POST', 'OPTIONS'])
 def process_csv():
