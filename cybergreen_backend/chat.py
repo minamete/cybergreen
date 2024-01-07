@@ -131,7 +131,7 @@ def regulatory_compliance_assessment(problem, solution):
     """
    
     response = get_openai_response(prompt) 
-    return prompt  # Returning prompt for demonstration
+    return prompt 
 
 def competitive_advantage_usp(problem, solution):
     """
@@ -144,7 +144,7 @@ def competitive_advantage_usp(problem, solution):
     """
    
     response = get_openai_response(prompt)  
-    return prompt  # Returning prompt for demonstration
+    return prompt  
 
 def evaluate_solution_feasibility(problem, solution, category):
     """
