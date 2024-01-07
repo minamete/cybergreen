@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Chat from './Chat';
+import CsvFileUploader from './Upload';
 import './App.css';
 import Leaderboard from './Leaderboard';
 
@@ -24,9 +25,8 @@ function App() {
 
         {/* Routes */}
         <Routes>
-          <Route path="/evaluate" element={<Chat />} />
+          <Route path="/evaluate/*" element={<EvaluatePage />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/evaluate" element={<ChatPage />} />
           {/* Add other routes as needed */}
         </Routes>
 
@@ -42,11 +42,11 @@ function App() {
   );
 }
 
-function ChatPage() {
+function EvaluatePage() {
   return (
-    <div>
-      
-      <Chat />
+    <div className="evaluate-page">
+      <Chat className="Chat"/>
+      <CsvFileUploader className="Upload"/>
     </div>
   );
 }
