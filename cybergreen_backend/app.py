@@ -71,39 +71,19 @@ def get_base_response(problem, solution):
         f"Overall: {overall_score}."
     )
 
-    return base_eval + scores_string
+    return (base_eval + scores_string, scores)
 
 # ---------------------------------------------------------------------
 # LIVE ROUTES
 
 @app.route("/submission", methods=("GET", "POST", "OPTIONS"))
 def submission():
-    print("hi")
     if request.method=="POST":
         # Submit the submission
         user_input = request.json
-        print(user_input)
         for input in user_input:
-            # Retrieve problem, solution from a single input
-            problem = input["problem"]
-            solution = input["solution"]
-
-            # Save predicted category to db
-            category = get_predicted_category(problem, solution)
-            input["category"] = category
-
-            # Save scores to db
-            scores = get_all_scores(problem, solution, category)        
-
-            feasibility_score = scores['feasibility_score']
-            novelty_score = scores['novelty_score']
-            env_impact_score = scores['env_impact_score']
-            overall_score = scores['overall_score']
-
-            input["feasibility_score"] = feasibility_score
-            input["novelty_score"] = novelty_score
-            input["env_impact_score"] = env_impact_score
-            input["overall_score"] = overall_score
+            # so that we have something to submit
+            scores = input["scores"]
         
         submissions.insert_many(user_input)
                 
@@ -139,9 +119,13 @@ def chat():
     session['category'] = category
 
     # Get generated base evaluation response 
-    string_res = get_base_response(problem, solution)
+    base_response = get_base_response(problem, solution)
+    string_res = base_response[0]
+    scores = base_response[1]
+    
     response = {
         'str': string_res,
+        'scores': scores,
         'category': category
     }
 

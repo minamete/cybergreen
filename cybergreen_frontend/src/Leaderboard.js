@@ -51,10 +51,10 @@ const Leaderboard = () => {
                 <td>{index + 1}</td>
                 <td className="problem-cell">{dbRow.problem}</td>
                 <td className="solution-cell">{dbRow.solution}</td>
-                <td>{dbRow.overall_score}</td>
-                <td>{dbRow.env_impact_score}</td>
-                <td>{dbRow.feasibility_score}</td>
-                <td>{dbRow.novelty_score}</td>
+                <td>{dbRow.scores.overall_score}</td>
+                <td>{dbRow.scores.env_impact_score}</td>
+                <td>{dbRow.scores.feasibility_score}</td>
+                <td>{dbRow.scores.novelty_score}</td>
               </tr>
             ))}
           </tbody>

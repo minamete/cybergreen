@@ -289,12 +289,12 @@ def get_all_scores(problem, solution, category):
     novelty_score = get_novelty_score(problem, solution, category)
     env_impact_score = get_env_impact_score(problem, solution, category)
 
-    if re.search(".*[0-9]+.*", feasibility_score) == None:
+    if re.search("[0-9]", feasibility_score) == None:
         feasibility_score = "0"
-    if re.search(".*[0-9]+.*", novelty_score) == None:
+    if re.search("[0-9]", novelty_score) == None:
         novelty_score = "0"
-    if re.search(".*[0-9]+.*", env_impact_score) == None:
-        novelty_score = "0"
+    if re.search("[0-9]", env_impact_score) == None:
+        env_impact_score = "0"
         
     overall_score = str(int(re.search("[0-9]",feasibility_score).group()) + 
                         int(re.search("[0-9]",novelty_score).group()) + 

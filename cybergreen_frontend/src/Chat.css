@@ -68,6 +68,11 @@
 
   .submit-button {
     background-color: darkgreen;
+
+    &:disabled {
+      background-color: grey !important;
+      cursor: not-allowed;
+    }
   }
 
   input {

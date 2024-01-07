@@ -49,17 +49,17 @@ const Chat = () => {
       text: userMessage,
       problem: userProblemInput,
       solution: userSolutionInput,
+      scores: false,
     };
 
     lastMessage.problem = userProblemInput;
     lastMessage.solution = userSolutionInput;
 
-    console.log(lastMessage)
     if (isSpam(userSolutionInput)) {
       return alert("Please provide a more comprehensive solution!");
     }
 
-    setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+    messages.push(newUserMessage);
 
     const problemSolutionObject = {
       problem: userProblemInput,
@@ -89,14 +89,14 @@ const Chat = () => {
         // If the response body is JSON, handle it as before
         const responseData = await response.json();
         if (typeof responseData === "object") {
+          messages[messages.length - 1].scores = responseData.response.scores;
+          console.log(messages)
           const newAiMessage = {
             type: "ai",
             text: responseData.response.str,
           };
           setMessages((prevMessages) => [...prevMessages, newAiMessage]);
           lastMessage.category = responseData.response.category;
-          console.log(lastMessage)
-
         } else {
           setMessages([
             ...messages,
@@ -134,7 +134,7 @@ const Chat = () => {
   };
 
   const handleSendPrediction = async (type, name) => {
-    console.log(lastMessage)
+    console.log(lastMessage);
 
     const predictSubmission = {
       problem: lastMessage.problem,
@@ -186,11 +186,12 @@ const Chat = () => {
     }
   };
 
-  const handleSubmitMessage = async (problem, solution) => {
+  const handleSubmitMessage = async (problem, solution, scores) => {
     // submitting to mongo
     const mongoSubmission = {
       problem: problem,
       solution: solution,
+      scores: scores,
     };
 
     if (isSpam(solution)) {
@@ -258,11 +259,12 @@ const Chat = () => {
             key={index}
             className={message.type === "user" ? "user-message" : "ai-message"}
           >
-            {message.text}
+            <p>{message.text}</p>
             {message.type === "user" ? (
               <button
+                disabled={!message.scores}
                 onClick={(e) =>
-                  handleSubmitMessage(message.problem, message.solution)
+                  handleSubmitMessage(message.problem, message.solution, message.scores)
                 }
                 className="submit-button"
               >
@@ -304,7 +306,11 @@ const Chat = () => {
         >
           Comprehensive Impact
         </button>
-        <button className="predict-button" disabled={!!!lastMessage.category}>
+        <button
+          className="predict-button"
+          onClick={() => handleSendPrediction("risk", "Risks")}
+          disabled={!!!lastMessage.category}
+        >
           Business and Financial Risks
         </button>
         <button className="predict-button" disabled={!!!lastMessage.category}>
