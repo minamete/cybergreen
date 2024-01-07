@@ -121,6 +121,57 @@ const Chat = () => {
     setUserSolutionInput("");
   };
 
+  const handleSendPrediction = async (problem, solution, type, name) => {
+    const predictSubmission = {
+      problem: problem,
+      solution: solution,
+      type: type,
+    };
+
+    if (isSpam(solution)) {
+      return alert("Please provide a more comprehensive solution!");
+    }
+
+    setIsChatLoading(true);
+    try {
+      const response = await fetch(`http://localhost:5000/${type}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        body: JSON.stringify(predictSubmission),
+      });
+
+      if (!response.ok) {
+        throw new Error("Prediction failed");
+      }
+      setIsChatLoading(false);
+
+      const responseData = await response.json();
+      console.log(responseData)
+      if (typeof responseData === "object") {
+        let newAiMessage = {
+          type: "ai",
+          text: name + ": " + responseData.response,
+        };
+        setMessages((prevMessages) => [...prevMessages, newAiMessage]);
+      } else {
+        setMessages([
+          ...messages,
+          {
+            type: "ai",
+            text: "I'm sorry, there was an error.",
+          },
+        ]);
+        console.error("Invalid JSON format in OpenAI response:", responseData);
+      }
+    } catch (error) {
+      setIsChatLoading(false);
+      console.error("Prediction failed", error);
+    }
+  };
+
   const handleSubmitMessage = async (problem, solution) => {
     // submitting to mongo
     const mongoSubmission = {
@@ -233,7 +284,17 @@ const Chat = () => {
       </div>
       <div className="input-row">
         <p>Predict:</p>
-        <button className="predict-button">Environmental Impact</button>
+        <button
+          className="predict-button"
+          onClick={() => handleSendPrediction(
+            userProblemInput,
+            userSolutionInput,
+            "impact",
+            "Environmental Impact"
+          )}
+        >
+          Environmental Impact
+        </button>
         <button className="predict-button">Business and Financial Risks</button>
         <button className="predict-button">Market Insights and Outlooks</button>
         <button className="predict-button">Regulation and Compliance</button>
