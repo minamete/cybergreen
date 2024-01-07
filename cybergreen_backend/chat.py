@@ -236,6 +236,44 @@ def novelty_score(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
+def generate_impact_score_prompt(problem, solution, category):
+    """
+    Generates a prompt for an AI model to assess the environmental impact of a business idea.
+    The impact is rated on a scale from 1 to 10, with 10 being the most positive impact.
+    Includes examples for training.
+    """
+    prompt = f"""
+    Here are examples of business ideas with their environmental and economic impact scores:
+
+    Example 1:
+    Problem: A significant issue is the overuse and wastage of paper in office environments. Every year, an estimated 50% of business waste consists of paper, contributing to deforestation and significant CO2 emissions. Additionally, producing paper absorbs a lot of energy and water, and many companies are not efficiently managing their paper use. Many documents are printed out, only to be used temporarily and then discarded, leading to massive waste. The excessive reliance on paper also leads to greater costs for businesses. This culture of paper waste not only harms our environment but also negatively impacts the financial health of businesses.  
+    Solution: My solution is a centralized, AI-driven document management system that promotes a paperless culture. This system would handle all digital documents, analyze usage patterns, and encourage digital alternatives to printing. It could incorporate features such as real-time OCR (Optical Character Recognition) for scanning physical documents, collaboration tools, cloud storage, and intelligent searching. It could even recommend when printing is unavoidable and offer solutions such as using recycled paper. This could drastically cut down on paper usage, thereby saving costs, and reduce a company's carbon footprint. Simultaneously, it also offers a chance for a company to increase its operational efficiency by managing and coordinating all its documents in a single, accessible panel.
+    Category: Paper and Cupboard
+    Environmental Impact Score: 9
+
+    Example 2:
+    Problem: The global food system, a major contributor to climate change, is plagued by inefficiencies leading to substantial food waste and greenhouse gas emissions. Urbanization and population growth enhance the urgency to transition to a more sustainable model.  
+    Solution: We propose the ""Integrated Digital Platform for Community-Based Circular Food Systems (IDPCB-CFS)"". This platform would link local households, farmers, retailers, and waste treatment facilities, thus forming a circular local food system.  In this system, households, urban farmers, and commercial businesses grow fruits and vegetables using vertical farming and aquaponics, reducing their dependency on long-distance supply chains. The platform provides real-time guidance on optimal planting and harvesting times, and identifies local market needs to minimize overproduction and waste.   Surplus (yield above household consumption or aesthetic noncompliant produce) can be sold or exchanged via the platform, reducing food waste. Deliveries can be bundled and optimized, further reducing transport emissions.  Food waste from households is collected and composted at local organic waste facilities and then distributed back to the participating urban growers as a nutrient-rich natural fertilizer.  Community-based crowdfunding and shared ownership models can reduce the financial barriers to entry. Meanwhile, the use of renewable energy systems (like solar-powered grow lights) can decrease dependence on non-renewable resources, thus adding to the environmental benefits.  IDPCB-CFS faces various practical challenges, like the need for broad community involvement and potential spatial limitations in densely populated areas. However, with the right policies in place and sufficient community buy-in, it promises a viable, scalable, and impactful solution.
+    Category: Food Waste
+    Environmental Impact Score: 9
+
+    Example 3:
+    Problem: Designing Colors schemes
+    Solution: Now a days everyone likes white and black color in everything we have. People more likes black and white color for thier car, cloths, equipment, accessories, and many more they have. If people continually use just two colors white and black then in some upcoming years our planet will loss thier beauty. God made this universe colorful and we humans forget all other colors when we have white and black. Even I noticed buildings are also black. I want to ask those people and also from mine why we are using all colors for everything. Please do something for this. Help me to call people kindly just take a look in nature this is colorful and more beautiful than we are making everything in white and black. Our planet is losing it's beautiful color due to us black and white lovers. Everyone, you and me are also involve in this...
+    Category: Infrastructure
+    Environmental Impact Score: 1
+
+    Based on these examples, assess the following business idea:
+    Problem: {problem}
+    Solution: {solution}
+    Category: {category}
+    Environmental Impact Score: [Provide an environmental impact score from 1 to 10]
+    """
+
+    response = get_openai_response(prompt)
+    return response
+
+
 # ---------------------------------------------------------------------
 # OVERALL WORKFLOW
 
