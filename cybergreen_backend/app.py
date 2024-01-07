@@ -84,8 +84,6 @@ def submission():
         user_input = request.json
         print(user_input)
         for input in user_input:
-            input["score"] = random.random() * 10 
-
             # Retrieve problem, solution from a single input
             problem = input["problem"]
             solution = input["solution"]
