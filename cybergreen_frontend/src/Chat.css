@@ -26,6 +26,7 @@
     width: 25%; /* Set user message width to 25% */
     box-sizing: border-box; /* Include padding and border in width calculation */
     margin-left: -15%; /* Adjust the margin-right to extend off the right side */
+    max-width: 25vw;
   }
 
 .ai-message {
@@ -35,7 +36,7 @@
   border-radius: 8px;
   align-self: flex-start; /* Align AI messages to the left */
   margin-right: -15%; /* Adjust the margin-left to extend off the left side */
-  max-width: 60vw;
+  max-width: 25vw;
 }
   
   .input-container {

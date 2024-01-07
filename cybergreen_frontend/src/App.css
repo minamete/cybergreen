@@ -1,8 +1,11 @@
+/* App.css */
+
 .App {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .banner {
   width: 100%;
   margin-bottom: 30px;
@@ -17,18 +20,25 @@
 
 .evaluate-page {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px; /* Increase the margin for more space between components */
+  justify-content: center; /* Center both components */
+  align-items: center; /* Align items in the center vertically */
+  flex-wrap: wrap; /* Allow components to wrap to the next line if needed */
+  gap: 20px; /* Adjust as needed for space between components */
 }
 
 .Chat {
   flex: 1; /* Allow Chat to grow and take remaining space */
-  margin-right: 20px; /* Adjust as needed for space between Chat and CsvFileUploader */
+  max-width: calc(50% - 10px); /* Set maximum width for Chat, considering the gap */
+  margin-right: 5px; /* Adjust as needed for space between Chat and Upload */
+  background-color: #e0e0e0;
+  height: 400px;
 }
 
 .Upload {
   flex: 1; /* Allow Upload to grow and take remaining space */
-  max-width: 300px; /* Set a maximum width for Upload, adjust as needed */
+  max-width: calc(50% - 10px); /* Set maximum width for Upload, considering the gap */
+  margin-left: 5px; /* Adjust as needed for space between Chat and Upload */
+  padding: 10px; /* Add padding around the Upload component */
 }
 
 .banner img {
