@@ -21,18 +21,21 @@ const Chat = () => {
     const newUserMessage = { type: "user", text: userMessage };
     setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 
+    const problemSolutionObject = {
+      problem: userProblemInput,
+      solution: userSolutionInput
+    }
+
     try {
       const response = await fetch(
-        "http://localhost:5000/user_chat?problem=" +
-          encodeURIComponent(userProblemInput) +
-          "&solution=" +
-          encodeURIComponent(userSolutionInput),
+        "http://localhost:5000/user_chat",
         {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           mode: "cors",
+          body: JSON.stringify(problemSolutionObject)
         }
       );
 
