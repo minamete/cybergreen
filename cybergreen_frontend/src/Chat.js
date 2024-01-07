@@ -176,6 +176,30 @@ const Chat = () => {
           </button>
         </div>
       </div>
+      <div className="input-row">
+        <p>Predict:</p>
+        <button className="predict-button">
+          Environmental Impact
+        </button>
+        <button className="predict-button">
+          Business and Financial Risks
+        </button>
+        <button className="predict-button">
+          Market Insights and Outlooks
+        </button>
+        <button className="predict-button">
+          Regulation and Compliance
+        </button>
+        <button className="predict-button">
+          Competitive Advantage
+        </button>
+        <button className="predict-button">
+          Idea and Concept Feasibility
+        </button>
+        <button className="predict-button">
+          Potential Funding Outlook
+        </button>
+      </div>
     </div>
   );
 };

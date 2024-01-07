@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    max-height: 400px;
     max-width: 75%;
     margin: auto;
   }
@@ -52,6 +51,16 @@
     }
   }
   
+  .input-row {
+    justify-content: center;
+  }
+
+  .predict-button {
+    width: 10rem !important;
+    height: 5rem !important;
+    margin: 1rem !important;
+  }
+
   input {
     flex: 1;
     padding: 8px;
