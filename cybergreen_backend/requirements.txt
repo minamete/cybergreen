@@ -7,6 +7,7 @@ click
 distro
 filelock
 Flask
+Flask-PyMongo
 fsspec
 gensim
 h11
@@ -27,6 +28,7 @@ packaging
 pandas
 pydantic
 pydantic_core
+pymongo[srv]
 python-dateutil
 python-dotenv
 pytz
