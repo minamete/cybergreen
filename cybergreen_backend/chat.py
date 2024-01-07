@@ -67,7 +67,7 @@ def get_impact_eval(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-def get_business_risks_eval(problem, solution, category):
+def get_risks_eval(problem, solution, category):
     """
     Generates a prompt for the OpenAI API to evaluate the business risks and threats of an idea based on the problem, solution, and its category.
     """
@@ -82,7 +82,7 @@ def get_business_risks_eval(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-def get_market_insights_eval(problem, solution, category):
+def get_market_eval(problem, solution, category):
     """
     Generates prompts for the OpenAI API to obtain insights on market size, biggest competitors, and general market trends for a given solution.
     """
@@ -111,7 +111,7 @@ def get_market_insights_eval(problem, solution, category):
     response = market_size_response + competitors_response + market_trends_response
     return response
 
-def get_regulation_compliance_eval(problem, solution):
+def get_regulation_eval(problem, solution):
     """
     Generate a prompt for evaluating the regulatory and compliance aspects of a solution.
     """
@@ -125,7 +125,7 @@ def get_regulation_compliance_eval(problem, solution):
     response = get_openai_response(prompt) 
     return response 
 
-def get_competitive_advantage_eval(problem, solution):
+def get_competition_eval(problem, solution):
     """
     Generate a prompt for evaluating the competitive advantage and unique selling proposition of a solution.
     """
