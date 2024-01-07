@@ -9,7 +9,7 @@ from bson.json_util import dumps
 
 load_dotenv()
 mongo_url = os.getenv("MONGO_LINK")
-from chat_idea import eval_idea
+from chat import eval_idea
 
 app = Flask(__name__)
 CORS(app)
@@ -63,8 +63,8 @@ def chat():
         return jsonify({"error": "user_input parameter is missing."}), 400
     
     # Do additional processing with user_problem and user_solution
-    user_problem = request.args.get('user_problem')
-    user_solution = request.args.get('user_solution')
+    user_problem = request.json['problem']
+    user_solution = request.json['solution']
 
     response = eval_idea(user_problem, user_solution)
     return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})
