@@ -151,3 +151,22 @@ def competitive_advantage_usp(problem, solution):
     # response = openai_api_call(prompt)  # Replace with actual API call
     return prompt  # Returning prompt for demonstration
 
+def evaluate_solution_feasibility(problem, solution, category):
+    """
+    Generates a prompt for the OpenAI API to evaluate the feasibility of a solution and identify potential issues.
+    """
+    # Constructing the prompt
+    prompt = f"""
+    Problem: {problem}
+    Solution: {solution}
+    Predicted Category: {category}
+    Feasibility Analysis: Considering the solution '{solution}' for the problem '{problem}', 
+    especially in relation to the category '{category}', assess the feasibility of this solution. 
+    Discuss any challenges or issues that might make the solution unfeasible or difficult to implement.
+    """
+    
+    # Assuming you have a function `get_openai_response` to interact with OpenAI API
+    response = get_openai_response(prompt)
+    return response
+
+
