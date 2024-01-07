@@ -165,6 +165,76 @@ def base_response(problem, solution, category):
     """
     response = get_openai_response(prompt)
     return response
+    
+def feasibility_score_prompt(problem, solution, category):
+    """
+    Generates a prompt for an AI model to output a feasibility score from 1 to 10 for a business,
+    based on the provided problem, solution, and category. Includes examples for training.
+    """
+    prompt = f"""
+    Assess the feasibility of business ideas based on their problems, solutions, and categories. Rate them on a scale from 1 to 10, where 10 is highly feasible. Here are some examples for training:
+
+    Example 1:
+    Problem: On a global scale, massive amounts of food gets wasted at a shocking rate. This is particularly prominent in the restaurant and fast-food industry where surplus food and ingredients are often discarded. This rampant food waste not only has a significant environmental impact, but it also overlooks the potential value of these resources that could otherwise be tapped into.  
+    Solution: I envision a unique and exciting solution where restaurants and fast-food chains create partnerships with local composting enterprises. In this system, these businesses would collect their food waste and sell it to composting companies who would then convert this waste into nutrient-rich soil. This soil can be sold back to local agricultural producers or to the general public for home gardening use. Not only does this minimize the amount of food waste going into landfills, it creates a new revenue stream for both the restaurants and the composting companies. Moreover, this rotation completes a full-circle economy where resources are put to best use. It promotes healthy eating, community growth and a sense of unity as we all strive for a greener and healthier earth. This action might seem small, but the collective impact can be massive! Let's turn the tide on food waste and create a tastier and greener future together!
+    Category: Food waste
+    Feasibility Score: 7
+
+    Example 2:
+    Problem: The colossal waste produced by the fashion industry is a problem with major environmental implications. The fashion industry is the second largest polluter in the world, and it contributes to significant amounts of waste, with 85% of textiles going to the dump each year. With the rise of fast fashion, clothes are manufactured, purchased, and discarded at an alarming rate. This creates not just waste, but also a tremendous waste of resources, including water, energy, and labor.   
+    Solution: The proposed solution is a platform that enables and encourages ""Clothing as a Service"" (CaaS). The goal of the platform is to shift the mindset from owning clothes to accessing them, reminiscent of the boom in car sharing and ride-hailing services, and increasingly music, film, and software products.  The core of this platform is to allow users to lease clothes for a certain period of time after which they can choose to return, swap, or purchase the items - like a library but for clothes. This allows for a rotation of clothes in people's wardrobes and the clothes get reused by multiple users over their lifetime, thereby ensuring maximum usage of every piece. The returned clothes can be refurbished and repaired if necessary, adding to the lifecycle of the clothing.  For businesses, this opens up new revenue streams and provides more insight into consumer habits and preferences, enhancing their ability to tailor offers and products. For consumers, it offers financial savings, variety, and convenience, while positively impacting the environment. With a strong infrastructure for transport, cleaning, repairing, and recycling, and strategic partnerships with fashion brands, this platform can become a scalable and sustainable solution to the waste problem plaguing the fashion industry. The feasibility of implementation lies in changing consumer behavior towards renting instead of buying - a trend already catching on for its environmental and economic benefits.
+    Category: Fashion
+    Feasibility Score: 8
+
+    Example 3:
+    Problem: Spent nuclear fuel can be recycled to make new fuel and byproducts.
+    Solution: Nuclear Waste recycling has, to date, mostly been focused on the extraction of plutonium and uranium, as these elements can be reused in conventional reactors. This separated plutonium and uranium can subsequently be mixed with fresh uranium and made into new fuel rods.
+    Category: Energy
+    Feasibility Score: 5
+
+    Now, assess the following business idea:
+    Problem: {problem}
+    Solution: {solution}
+    Category: {category}
+    Feasibility Score: [[Provide a feasibility score from 1 to 10]
+    """
+    response = get_openai_response(prompt)
+    return response
+
+def novelty_score(problem, solution, category):
+    """
+    Generates a prompt for an AI model to output a novelty score from 1 to 10 for a business,
+    based on the provided problem, solution, and category. Includes examples for training.
+    """
+    prompt = f"""
+    Evaluate the novelty of business ideas on a scale from 1 to 10, with 10 being highly novel and unique. Use the following examples to guide your scoring:
+
+    Example 1:
+    Problem: Many students struggle with affording textbooks each semester due to high costs, contributing to financial stress during their academic studies.  .
+    Solution: Implement a textbook rental system within universities so students can lease instead of buying them. This not only makes education more affordable but also promotes reusable resources, driving the educational sector towards a circular economy. The used textbooks can be repaired or refurbished if necessary, ensuring their maximum use. The system could also incorporate a platform for students to share or exchange books, facilitating further reuse.
+    Category: Paper and cupboard
+    Novelty Score: 3
+
+    Example 2:
+    Problem: Single-use packaging, primarily plastic, is contributing to significant environmental pollution and resource waste.  
+    Solution: My solution involves creating a robust reusable packaging system for the food and beverage industry. Existing solutions like returnable glass bottles or bags have shown that it's possible and have been embraced by consumers. My proposal expands on this idea by introducing a universal, industry-standard system of reusable packaging for a wider range of products, including takeaway foods, groceries, and beverages.  Consumers would pay a small deposit fee for each reusable package, which would be refunded upon returning the item or used towards their next purchase. Retailers would then clean and sterilize these containers to be used again.   This initiative could be supported by a collaborative scheme involving local businesses, packaging companies, logistics providers, and cleaning services, ensuring the required infrastructure for collection, cleaning, and redistribution of reusable items is in place.  The environmental impact would be immense, drastically reducing the amount of single-use packaging going to landfills or into our oceans. Simultaneously, it generates financial value since businesses can save costs on sourcing new packaging material. Although initial investment on procuring and maintaining the reusable packaging will be required, the long-term savings outweigh these costs.  This is feasible as it builds on mechanisms that are already familiar to consumers and businesses—namely deposit-refund systems. With increased public concern about plastic waste, customer acceptance and preference for reusable packaging options can be expected. Coming to scalability, starting local will be the best approach. Once the pilot is successful, it can be scaled to include more businesses, or even entire cities or states.  
+    Category: Packaging 
+    Novelty Score: 7
+
+    Example 3:
+    Problem: The problem that this idea is meant to address is the large amount of waste generated in the construction industry. In particular, the construction process generates a significant amount of waste from building materials, tools, and equipment. This waste contributes to landfills, pollution, and resource depletion. Additionally, traditional construction practices often result in buildings and structures that are designed for a single use and have a limited lifespan, leading to the frequent demolition and replacement of buildings. This results in the loss of valuable resources, including materials, energy, and labor.
+    Solution: The idea is to reduce the waste generated in the construction industry by using modular building components that can be reused and repurposed in different projects. These components would be designed to be easily disassembled, transported, and reassembled, reducing the need for new materials and conserving resources. This is a new and innovative solution that is still in the early stages of development.So, imagine you're building a house and instead of using traditional building materials that will only be used once, you use modular components that can be taken apart and used again on a different project. This not only helps to reduce waste, but also conserves resources and reduces the environmental impact of construction. I believe this idea has the potential to revolutionize the way buildings are constructed and help to create a more circular construction industry
+    Category: Construction
+    Novelty Score: 7
+
+    Now, assess the following business idea:
+    Problem: {problem}
+    Solution: {solution}
+    Category: {category}
+    Novelty Score: [Provide a novelty/uniqueness score from 1 to 10]
+    """
+    response = get_openai_response(prompt)
+    return response
 
 # ---------------------------------------------------------------------
 # OVERALL WORKFLOW
@@ -189,7 +259,10 @@ def get_interpret_prompt():
     """
     Interpret the set of generic topics using trained LDA model output.
     """
-    lda_output_string = run_lda_training(dataset)
+    # Read the LDA topics into a string
+    # lda_output_string = run_lda_training(dataset)
+    with open("lda_topics_dist.txt", 'r') as file:
+        lda_topics_dist = file.read()
     
     custom_interpret_instructions = """
     Please provide a brief interpretation of the topics based on this trained LDA model output. Each individual topic should clearly identify a distinct domain or industry. Together, the topics should comprehensively cover the concept of the circular economy, which focuses on reusing and recycling resources to minimize waste. Your interpretation of the topics will be used to classify new problem and solution pairs to the most descriptive and accurate ability. Keep in mind that is the option to classify as "Other" if there is no one topic is sufficient. Format your response as separate lines of Topic X: Name. 
@@ -211,14 +284,28 @@ def get_interpret_prompt():
     Topic 5: Resource Management
     Topic 6: Infrastructure and Construction
     """
-    return lda_output_string + "\n" + custom_interpret_instructions
+    return lda_topics_dist + "\n" + custom_interpret_instructions
 
-def get_interpreted_topics(): 
+def save_interpreted_topics(): 
     interpret_prompt = get_interpret_prompt()
     topic_labels = get_openai_response(interpret_prompt)
-    return topic_labels
 
-def predict_topic(problem, solution): 
+    # Write the most up-to-date interpreted topics to a file
+    with open('lda_topics.txt', 'w') as f:
+        f.write(topic_labels)
+
+def get_interpreted_topics():
+    """
+    Read the interpreted LDA topics into a string which will be used to 
+    augment all evaluation prompts for a circular economy idea.
+
+    TODO: More validation tests
+    """
+    with open("lda_topics.txt", 'r') as file:
+        topic_labels = file.read()
+    return f"According to your most recent knowledge, the possible topics for classification are: '{topic_labels}'"
+
+def predict_topic(problem, solution, topic_labels_recall): 
     """
     Classify new user input into one of the interpreted topic labels.
     """
@@ -228,7 +315,8 @@ def predict_topic(problem, solution):
     Problem: '{problem}'
     Solution: '{solution}'
 
-    Recall the topics which can be used for classification: '{topic_labels}'.
+    '{topic_labels_recall}'
+
     Predict the relevant topic of the new idea. Respond in one concise sentence with the most likely topic name, your level of confidence in that classification, and a brief description in how you know that the idea can contribute to innovation in that topic. If you are not confident that any topic is appropriate, say "Other," and concisely explain your reasoning.
     """
 
@@ -245,4 +333,11 @@ def predict_topic(problem, solution):
 # response = get_openai_response(user_input)
 # print("Assistant:", response)
 
-print(get_interpreted_topics())
+def run_chat():
+    # Use existing database to get interpreted topics
+    save_interpreted_topics()
+    topic_labels_recall = get_interpreted_topics()
+    
+    print(topic_labels_recall)
+
+run_chat()
