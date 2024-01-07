@@ -90,7 +90,7 @@ const Chat = () => {
         const responseData = await response.json();
         if (typeof responseData === "object") {
           messages[messages.length - 1].scores = responseData.response.scores;
-          console.log(messages)
+          console.log(messages);
           const newAiMessage = {
             type: "ai",
             text: responseData.response.str,
@@ -264,7 +264,11 @@ const Chat = () => {
               <button
                 disabled={!message.scores}
                 onClick={(e) =>
-                  handleSubmitMessage(message.problem, message.solution, message.scores)
+                  handleSubmitMessage(
+                    message.problem,
+                    message.solution,
+                    message.scores
+                  )
                 }
                 className="submit-button"
               >
@@ -298,38 +302,72 @@ const Chat = () => {
         </div>
       </div>
       <div className="topics">
-        <p className="first-text">This solution has been sorted into the topic:</p>
+        <p className="first-text">
+          This solution has been sorted into the topic:
+        </p>
         <p className="second-text"></p>
       </div>
       <div className="input-row">
         <p>Get more comprehensive explanations on your last proposal:</p>
         <button
           className="predict-button"
-          onClick={() => handleSendPrediction("impact", "Overall Impact")}
+          onClick={() => handleSendPrediction("impact", "Comprehensive Impact")}
           disabled={!!!lastMessage.category}
         >
           Comprehensive Impact
         </button>
         <button
           className="predict-button"
-          onClick={() => handleSendPrediction("risk", "Risks")}
+          onClick={() =>
+            handleSendPrediction("risks", "Business and Financial Risks")
+          }
           disabled={!!!lastMessage.category}
         >
           Business and Financial Risks
         </button>
-        <button className="predict-button" disabled={!!!lastMessage.category}>
+        <button
+          className="predict-button"
+          onClick={() =>
+            handleSendPrediction("market", "Market Insights and Outlooks")
+          }
+          disabled={!!!lastMessage.category}
+        >
           Market Insights and Outlooks
         </button>
-        <button className="predict-button" disabled={!!!lastMessage.category}>
+        <button
+          className="predict-button"
+          onClick={() =>
+            handleSendPrediction("regulation", "Regulation and Compliance")
+          }
+          disabled={!!!lastMessage.category}
+        >
           Regulation and Compliance
         </button>
-        <button className="predict-button" disabled={!!!lastMessage.category}>
+        <button
+          className="predict-button"
+          onClick={() =>
+            handleSendPrediction("competition", "Competitive Advantage")
+          }
+          disabled={!!!lastMessage.category}
+        >
           Competitive Advantage
         </button>
-        <button className="predict-button" disabled={!!!lastMessage.category}>
+        <button
+          className="predict-button"
+          onClick={() =>
+            handleSendPrediction("feasibility", "Idea and Concept Feasibility")
+          }
+          disabled={!!!lastMessage.category}
+        >
           Idea and Concept Feasibility
         </button>
-        <button className="predict-button" disabled={!!!lastMessage.category}>
+        <button
+          className="predict-button"
+          onClick={() =>
+            handleSendPrediction("funding", "Potential Funding Outlook")
+          }
+          disabled={!!!lastMessage.category}
+        >
           Potential Funding Outlook
         </button>
       </div>

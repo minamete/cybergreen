@@ -1,12 +1,11 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from pymongo import MongoClient, errors
 from chat import get_predicted_category, get_all_scores
 from chat import get_base_eval, get_impact_eval, get_risks_eval, get_market_eval, get_regulation_eval, get_competition_eval, get_feasibility_eval, get_funding_eval
 from chat_fe import get_openai_response
 import os
 import sys
-import random
 from dotenv import load_dotenv
 from bson.json_util import dumps
 
@@ -14,9 +13,8 @@ load_dotenv()
 mongo_url = os.getenv("MONGO_LINK")
 
 app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
-CORS(app, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 try:
   client = MongoClient(mongo_url)
@@ -215,7 +213,7 @@ def eval_competition():
         return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
 
     # Perform competition evaluation
-    competition_eval = get_competition_eval(problem, solution, category)
+    competition_eval = get_competition_eval(problem, solution)
 
     return jsonify({"response": competition_eval, "Access-Control-Allow-Origin": "*"})
 
@@ -238,7 +236,7 @@ def eval_feasibility():
     return jsonify({"response": feasibility_eval, "Access-Control-Allow-Origin": "*"})
 
 @app.route("/funding", methods=['POST'])
-def eval_risks():
+def eval_funding():
     """
     Endpoint for additional evaluation when the user clicks the "Potential Funding Outlook" button.
     """

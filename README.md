@@ -13,3 +13,7 @@ For this web app to work, both the frontend and the backend must be running. Thi
 1. Change (`cd`) into `cybergreen_backend`.
 2. Run `pip3 install -r requirements.txt`. If you're on a Mac ARM processor and getting a ModuleNotFound error with `openai`, try `export PATH=“/git/openai-quickstart-python:${PATH}”`.
 3. Run `python app.py`. (If you are running with Python3, run `python3 app.py`.)
+
+## Env variables that need to be set:
+- OPENAI_API_KEY (openai)
+- MONGO_LINK (mongoDB atlas)
