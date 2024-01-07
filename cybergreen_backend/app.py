@@ -14,7 +14,7 @@ load_dotenv()
 mongo_url = os.getenv("MONGO_LINK")
 
 app = Flask(__name__)
-CORS(app, resources={r"/process_csv": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+CORS(app, supports_credentials=True)
 
 try:
   client = MongoClient(mongo_url)
