@@ -20,6 +20,7 @@ const Chat = () => {
           headers: {
             'Content-Type': 'application/json',
           },
+          mode: 'cors'
         });
     
         if (!response.ok) {

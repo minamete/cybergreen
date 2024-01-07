@@ -25,7 +25,7 @@ def chat():
 
     # Call the get_openai_response function
     response = get_openai_response(user_input)
-    return jsonify({"response": response})
+    return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})
 
 
 app.run()
