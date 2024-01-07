@@ -71,11 +71,12 @@ const Chat = () => {
     const mongoSubmission = {
       problem: userProblemInput,
       solution: userSolutionInput,
+      score: Math.random()
     };
 
     try {
       const response = await fetch(
-        "http://localhost:5000/submission/submit?=" +
+        "http://localhost:5000/submission?submit=" +
           encodeURIComponent(mongoSubmission),
         {
           method: "POST",
