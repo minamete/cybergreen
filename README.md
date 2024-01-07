@@ -17,3 +17,6 @@ For this web app to work, both the frontend and the backend must be running. Thi
 ## Env variables that need to be set:
 - OPENAI_API_KEY (openai)
 - MONGO_LINK (mongoDB atlas)
+
+## Other
+If you are getting an error related to CORS on the console, try going to 127.0.0.1:3000/ instead.
