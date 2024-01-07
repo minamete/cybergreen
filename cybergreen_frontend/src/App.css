@@ -4,13 +4,17 @@
 
 .banner {
   width: 100%;
+  margin-bottom: 30px;
+  height: 350px;
+  overflow: hidden;
+  text-align: center;
 }
 
 .banner img {
-  width: 100%;
-  height: auto;
+  width: 100%; /* Make the image fill the container horizontally */
+  height: 100%; /* Make the image fill the container vertically */
+  object-fit: cover; /* Maintain aspect ratio and crop if necessary */
 }
-
 .menu {
   margin-top: 20px;
 }

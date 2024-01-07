@@ -1,0 +1,64 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 400px;
+    max-width: 75%;
+    margin: auto;
+  }
+  
+  .message-box {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 400px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column; /* Adjusted to column layout */
+  }
+  
+  .user-message {
+    background-color: #4caf50; /* User message color */
+    color: #fff; /* User message text color */
+    padding: 8px;
+    margin: 5px;
+    border-radius: 8px;
+    align-self: flex-end; /* Align user messages to the right */
+    width: 25%; /* Set user message width to 25% */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    margin-left: -15%; /* Adjust the margin-right to extend off the right side */
+  }
+
+.ai-message {
+  background-color: #e0e0e0; /* AI message color */
+  padding: 8px;
+  margin: 5px;
+  border-radius: 8px;
+  align-self: flex-start; /* Align AI messages to the left */
+  margin-right: -15%; /* Adjust the margin-left to extend off the left side */
+}
+  
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 400px;
+    margin: auto;
+  }
+  
+  input {
+    flex: 1;
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+  }

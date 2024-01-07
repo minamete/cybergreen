@@ -1,14 +1,10 @@
-import chat
-import os
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from pymongo import MongoClient
-from dotenv import load_dotenv
+from chat_fe import get_openai_response
 
 app = Flask(__name__)
-
-load_dotenv()
-mongo_url = os.getenv("MONGO_LINK")
-
+CORS(app)
 client = MongoClient('localhost', 27017)
 db = client.flask_db
 submissions = db.submissions
@@ -17,20 +13,19 @@ submissions = db.submissions
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route("/submissions", methods=("GET", "POST"))
-def submissions():
-    if request.method=="POST":
-        # Submit the submission
-        problem = request.form['problem']
-        solution = request.form['solution']
-        overall_score = request.form['overall_score']
-        topic = request.form['topic']
-        return jsonify(success=True)
-    all_submissions = submissions.find()
-    return jsonify(success=True)
-
 @app.route("/chat")
 def test_chat(user_input):
     return get_openai_response(user_input)
+
+@app.route("/user_chat")
+def chat():
+    user_input = request.args.get('user_input')  # Get user input from query parameters
+    if user_input is None:
+        return "Error: user_input parameter is missing."
+
+    # Call the get_openai_response function
+    response = get_openai_response(user_input)
+    return jsonify({"response": response})
+
 
 app.run()
