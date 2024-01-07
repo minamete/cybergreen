@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Papa from 'papaparse';
 import axios from 'axios';
+import './Upload.css'; // Import the CSS file
 
 const CsvFileUploader = () => {
   const [csvFile, setCsvFile] = useState(null);
   const [error, setError] = useState(null);
+  const [showDownloadButton, setShowDownloadButton] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -23,6 +25,7 @@ const CsvFileUploader = () => {
 
     setError(null);
     setCsvFile(file);
+    setShowDownloadButton(false); // Hide the download button when a new file is selected
   };
 
   const handleParseCsv = () => {
@@ -54,7 +57,7 @@ const CsvFileUploader = () => {
       console.log(response.data);
 
       // Now, trigger the download of the updated dataset
-      handleDownloadUpdatedDataset();
+      setShowDownloadButton(true); // Show the download button after successful parsing
     } catch (error) {
       console.error('Error sending data to Flask backend:', error.message);
     }
@@ -80,15 +83,17 @@ const CsvFileUploader = () => {
   };
 
   return (
-    <div>
+    <div className="csv-file-uploader-container">
       <input type="file" onChange={handleFileChange} />
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {error && <div className="error-message">{error}</div>}
       <button onClick={handleParseCsv} disabled={!csvFile}>
         Submit
       </button>
-      <button onClick={handleDownloadUpdatedDataset}>
-        Download Data Insights
-      </button>
+      {showDownloadButton && (
+        <button onClick={handleDownloadUpdatedDataset} className="download">
+          Download Data Insights
+        </button>
+      )}
     </div>
   );
 };
