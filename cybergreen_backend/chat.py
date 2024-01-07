@@ -198,9 +198,44 @@ def feasibility_score_prompt(problem, solution, category):
     Category: {category}
     Feasibility Score: [?]
     """
-
     response = get_openai_response(prompt)
     return response
+
+def novelty_score(problem, solution, category):
+    """
+    Generates a prompt for an AI model to output a novelty score from 1 to 10 for a business,
+    based on the provided problem, solution, and category. Includes examples for training.
+    """
+    prompt = f"""
+    Evaluate the novelty of business ideas on a scale from 1 to 10, with 10 being highly novel and unique. Use the following examples to guide your scoring:
+
+    Example 1:
+    Problem: Many students struggle with affording textbooks each semester due to high costs, contributing to financial stress during their academic studies.  .
+    Solution: Implement a textbook rental system within universities so students can lease instead of buying them. This not only makes education more affordable but also promotes reusable resources, driving the educational sector towards a circular economy. The used textbooks can be repaired or refurbished if necessary, ensuring their maximum use. The system could also incorporate a platform for students to share or exchange books, facilitating further reuse.
+    Category: Paper and cupboard
+    Novelty Score: 3
+
+    Example 2:
+    Problem: Single-use packaging, primarily plastic, is contributing to significant environmental pollution and resource waste.  
+    Solution: My solution involves creating a robust reusable packaging system for the food and beverage industry. Existing solutions like returnable glass bottles or bags have shown that it's possible and have been embraced by consumers. My proposal expands on this idea by introducing a universal, industry-standard system of reusable packaging for a wider range of products, including takeaway foods, groceries, and beverages.  Consumers would pay a small deposit fee for each reusable package, which would be refunded upon returning the item or used towards their next purchase. Retailers would then clean and sterilize these containers to be used again.   This initiative could be supported by a collaborative scheme involving local businesses, packaging companies, logistics providers, and cleaning services, ensuring the required infrastructure for collection, cleaning, and redistribution of reusable items is in place.  The environmental impact would be immense, drastically reducing the amount of single-use packaging going to landfills or into our oceans. Simultaneously, it generates financial value since businesses can save costs on sourcing new packaging material. Although initial investment on procuring and maintaining the reusable packaging will be required, the long-term savings outweigh these costs.  This is feasible as it builds on mechanisms that are already familiar to consumers and businesses—namely deposit-refund systems. With increased public concern about plastic waste, customer acceptance and preference for reusable packaging options can be expected. Coming to scalability, starting local will be the best approach. Once the pilot is successful, it can be scaled to include more businesses, or even entire cities or states.  
+    Category: Packaging 
+    Novelty Score: 7
+
+    Example 3:
+    Problem: The problem that this idea is meant to address is the large amount of waste generated in the construction industry. In particular, the construction process generates a significant amount of waste from building materials, tools, and equipment. This waste contributes to landfills, pollution, and resource depletion. Additionally, traditional construction practices often result in buildings and structures that are designed for a single use and have a limited lifespan, leading to the frequent demolition and replacement of buildings. This results in the loss of valuable resources, including materials, energy, and labor.
+    Solution: The idea is to reduce the waste generated in the construction industry by using modular building components that can be reused and repurposed in different projects. These components would be designed to be easily disassembled, transported, and reassembled, reducing the need for new materials and conserving resources. This is a new and innovative solution that is still in the early stages of development.So, imagine you're building a house and instead of using traditional building materials that will only be used once, you use modular components that can be taken apart and used again on a different project. This not only helps to reduce waste, but also conserves resources and reduces the environmental impact of construction. I believe this idea has the potential to revolutionize the way buildings are constructed and help to create a more circular construction industry
+    Category: Construction
+    Novelty Score: 7
+
+    Now, assess the following business idea:
+    Problem: {problem}
+    Solution: {solution}
+    Category: {category}
+    Novelty Score: [Provide a novelty/uniqueness score from 1 to 10]
+    """
+
+    return prompt
+
 # ---------------------------------------------------------------------
 # OVERALL WORKFLOW
 
