@@ -23,7 +23,7 @@ def get_openai_response(user_input):
         model="gpt-3.5-turbo",
         messages=messages,
         temperature=0.6,
-        max_tokens=4000,
+        max_tokens=600,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
