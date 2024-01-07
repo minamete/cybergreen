@@ -27,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/evaluate/*" element={<EvaluatePage />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/" element={<></>} />
           {/* Add other routes as needed */}
         </Routes>
 
