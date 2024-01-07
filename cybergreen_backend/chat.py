@@ -196,7 +196,7 @@ def feasibility_score_prompt(problem, solution, category):
     Problem: {problem}
     Solution: {solution}
     Category: {category}
-    Feasibility Score: [?]
+    Feasibility Score: [[Provide a feasibility score from 1 to 10]
     """
     response = get_openai_response(prompt)
     return response
@@ -233,8 +233,8 @@ def novelty_score(problem, solution, category):
     Category: {category}
     Novelty Score: [Provide a novelty/uniqueness score from 1 to 10]
     """
-
-    return prompt
+    response = get_openai_response(prompt)
+    return response
 
 # ---------------------------------------------------------------------
 # OVERALL WORKFLOW
