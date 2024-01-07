@@ -50,6 +50,14 @@ def test_chat(user_input):
 
 @app.route("/user_chat", methods=['GET', 'POST'])
 def chat():
+    """
+    Chatbot functionality to return initial evaluation and scores for 
+    user ideas in the problem, solution format. 
+    
+    Meant to apply to ideas of different stages and qualities by 
+    supporting the user with quick feedback.
+    """
+
     # user_input = request.args.get('user_input')  # Get user input from query parameters
     # if user_input is None:
     #     return "Error: user_input parameter is missing."

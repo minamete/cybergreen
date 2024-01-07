@@ -102,11 +102,8 @@ def get_market_insights_eval(problem, solution, category):
     competitors_response = get_openai_response(competitors_prompt)
     market_trends_response = get_openai_response(market_trends_prompt)
 
-    return {
-        "Market Size Analysis": market_size_response,
-        "Competitor Analysis": competitors_response,
-        "Market Trends Analysis": market_trends_response
-    }
+    response = market_size_response + competitors_response + market_trends_response
+    return response
 
 def get_regulation_compliance_eval(problem, solution):
     """
@@ -166,7 +163,7 @@ def get_funding_eval(problem, solution, category):
 # ---------------------------------------------------------------------
 # EVALUATION PROMPTS
 
-def feasibility_score_prompt(problem, solution, category):
+def get_feasibility_score(problem, solution, category):
     """
     Generates a prompt for an AI model to output a feasibility score from 1 to 10 for a business,
     based on the provided problem, solution, and category. Includes examples for training.
@@ -199,9 +196,9 @@ def feasibility_score_prompt(problem, solution, category):
     Feasibility Score: [Provide a feasibility score from 1 to 10]
     """
     response = get_openai_response(prompt)
-    return  int(response)
+    return int(response)
 
-def novelty_score(problem, solution, category):
+def get_novelty_score(problem, solution, category):
     """
     Generates a prompt for an AI model to output a novelty score from 1 to 10 for a business,
     based on the provided problem, solution, and category. Includes examples for training.
@@ -234,9 +231,9 @@ def novelty_score(problem, solution, category):
     Novelty Score: [Provide a novelty/uniqueness score from 1 to 10]
     """
     response = get_openai_response(prompt)
-    return  int(response)
+    return int(response)
 
-def environmental_impact(problem, solution, category):
+def get_env_impact_score(problem, solution, category):
     """
     Generates a prompt for an AI model to assess the environmental impact of a business idea.
     The impact is rated on a scale from 1 to 10, with 10 being the most positive impact.
@@ -274,10 +271,25 @@ def environmental_impact(problem, solution, category):
     response = get_openai_response(prompt)
     return int(response)
 
+def get_all_scores(problem, solution, category):
+    feasibility_score = get_feasibility_score(problem, solution, category)
+    novelty_score = get_novelty_score(problem, solution, category)
+    env_impact_score = get_env_impact_score(problem, solution, category)
+    overall_score = feasibility_score + novelty_score + env_impact_score + overall_score
 
+    # Create a dictionary to hold the scores
+    scores_dict = {
+        'feasibility_score': feasibility_score,
+        'novelty_score': novelty_score,
+        'env_impact_score': env_impact_score,
+        'overall_score': overall_score
+    }
+
+    # Return the dictionary
+    return scores_dict
 
 # ---------------------------------------------------------------------
-# OVERALL WORKFLOW
+# TOPIC MODELING & INTERPRETATION
 
 dataset = "dataset.csv"
 topic_labels = ""
@@ -364,24 +376,56 @@ def predict_category(problem, solution, topic_labels_recall):
     return category
 
 # ---------------------------------------------------------------------
-# TESTING
+# IDEA EVALUATION & SCORING
 
 # user_input = "what are 10 commonly discussed solutions to combat plastic waste"
 # response = get_openai_response(user_input)
 # print("Assistant:", response)
 
-def eval_idea(problem, solution):
+def get_predicted_category(problem, solution): 
+    """
+    Get the predicted topic of an input idea so that future evaluation
+    and scoring can be augmented with this context.
+    """
     # Use existing database to get interpreted topics
     save_interpreted_topics()
     topic_labels_recall = get_interpreted_topics()
 
-    # Retrieve user problem and solution
+    # Predict category based on user-submitted problem and solution
     category = predict_category(problem, solution, topic_labels_recall)
+    return category
 
-    # Augmenting the user input with the predicted topic, 
-    # we are now able to call any of the evaluation prompts 
-    base_response = get_base_eval(problem, solution, category)
-    
-    return base_response
+def eval_idea(problem, solution):
+    category = get_predicted_category(problem, solution)
+    base_eval = get_base_eval(problem, solution, category)
+    return base_eval
+
+def score_idea(problem, solution):
+    category = get_predicted_category(problem, solution)
+    scores = get_all_scores(problem, solution, category)
+    return scores
+
+def get_base_response(problem, solution):
+    """
+    Return the formatted string with base evaluation and scores.
+    """
+    base_eval = eval_idea(problem, solution)
+    scores = score_idea(problem, solution)
+
+    # Access individual scores
+    feasibility_score = scores['feasibility_score']
+    novelty_score = scores['novelty_score']
+    env_impact_score = scores['env_impact_score']
+    overall_score = scores['overall_score']
+
+    # Create a formatted string with the scores (auto-converts integers)
+    scores_string = (
+        f"Feasibility: {feasibility_score}. "
+        f"Novelty: {novelty_score}. "
+        f"Environmental Impact: {env_impact_score}. "
+        f"Overall: {overall_score}."
+    )
+
+    return base_eval + scores_string
 
 # run_chat()
