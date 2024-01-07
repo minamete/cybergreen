@@ -18,6 +18,10 @@ const Chat = () => {
     // Add the user's message to the messages state
     const userMessage =
       "Problem: " + userProblemInput + " Solution: " + userSolutionInput;
+    const problemSolutionObject = {
+      problem: userProblemInput,
+      solution: userSolutionInput
+    }
     const newUserMessage = { type: "user", text: userMessage };
     setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 
@@ -31,6 +35,7 @@ const Chat = () => {
             "Content-Type": "application/json",
           },
           mode: "cors",
+          body: JSON.stringify(problemSolutionObject)
         }
       );
 
