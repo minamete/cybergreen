@@ -19,7 +19,10 @@ const Leaderboard = () => {
           return res.json();
         })
         .then((data) => {
-         setDBTable(JSON.parse(data));
+          // set table values and sort table
+          setDBTable(
+            JSON.parse(data).sort((a, b) => (a.score > b.score ? -1 : 1))
+          );
         });
     } catch (error) {
       console.error("DB loading failed", error);
@@ -42,7 +45,7 @@ const Leaderboard = () => {
           <tbody>
             {dbTable.map((dbRow, index) => (
               <tr key={index}>
-                <td>{index}</td>
+                <td>{index + 1}</td>
                 <td className="problem-cell">{dbRow.problem}</td>
                 <td className="solution-cell">{dbRow.solution}</td>
                 <td>{dbRow.score}</td>
