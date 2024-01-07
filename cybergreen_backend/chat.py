@@ -61,6 +61,29 @@ def get_openai_response(user_input):
     assistant_reply = response.choices[0].message.content
     return assistant_reply
 
+def evaluate_idea_impact(problem, solution):
+    """
+    Generates a prompt for the OpenAI API to evaluate the impact of an idea based on the problem, solution, and its category.
+    """
+    # Constructing the prompt
+    prompt = f"""
+    Problem: {problem}
+    Solution: {solution}
+    Considering the problem and proposed solution, please analyze the potential impact of the business on environmental, social, and economic aspects.
+    """
+
+    response = get_openai_response(prompt)
+    return response
+
+# Example usage
+problem_example = "High levels of food waste in urban areas"
+solution_example = "Implementing a city-wide composting program"
+
+# Get the OpenAI API response
+impact_analysis = evaluate_idea_impact(problem_example, solution_example)
+print("Impact Analysis:", impact_analysis)
+
+
 # Example usage
 user_input = "what are 10 commonly discussed solutions to combat plastic waste"
 response = get_openai_response(user_input)
