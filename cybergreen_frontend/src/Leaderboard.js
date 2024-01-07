@@ -21,7 +21,7 @@ const Leaderboard = () => {
         .then((data) => {
           // set table values and sort table
           setDBTable(
-            JSON.parse(data.response).sort((a, b) => (a.overall_score > b.overall_score ? -1 : 1))
+            JSON.parse(data.response).sort((a, b) => (a.scores.overall_score > b.scores.overall_score ? -1 : 1))
           );
         });
     } catch (error) {
@@ -51,10 +51,10 @@ const Leaderboard = () => {
                 <td>{index + 1}</td>
                 <td className="problem-cell">{dbRow.problem}</td>
                 <td className="solution-cell">{dbRow.solution}</td>
-                <td>{dbRow.overall_score}</td>
-                <td>{dbRow.env_impact_score}</td>
-                <td>{dbRow.feasibility_score}</td>
-                <td>{dbRow.novelty_score}</td>
+                <td>{dbRow.scores.overall_score}</td>
+                <td>{dbRow.scores.env_impact_score}</td>
+                <td>{dbRow.scores.feasibility_score}</td>
+                <td>{dbRow.scores.novelty_score}</td>
               </tr>
             ))}
           </tbody>

@@ -67,7 +67,7 @@ def get_impact_eval(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-def get_business_risks_eval(problem, solution, category):
+def get_risks_eval(problem, solution, category):
     """
     Generates a prompt for the OpenAI API to evaluate the business risks and threats of an idea based on the problem, solution, and its category.
     """
@@ -82,7 +82,7 @@ def get_business_risks_eval(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-def get_market_insights_eval(problem, solution, category):
+def get_market_eval(problem, solution, category):
     """
     Generates prompts for the OpenAI API to obtain insights on market size, biggest competitors, and general market trends for a given solution.
     """
@@ -111,7 +111,7 @@ def get_market_insights_eval(problem, solution, category):
     response = market_size_response + competitors_response + market_trends_response
     return response
 
-def get_regulation_compliance_eval(problem, solution):
+def get_regulation_eval(problem, solution):
     """
     Generate a prompt for evaluating the regulatory and compliance aspects of a solution.
     """
@@ -125,7 +125,7 @@ def get_regulation_compliance_eval(problem, solution):
     response = get_openai_response(prompt) 
     return response 
 
-def get_competitive_advantage_eval(problem, solution):
+def get_competition_eval(problem, solution):
     """
     Generate a prompt for evaluating the competitive advantage and unique selling proposition of a solution.
     """
@@ -289,12 +289,12 @@ def get_all_scores(problem, solution, category):
     novelty_score = get_novelty_score(problem, solution, category)
     env_impact_score = get_env_impact_score(problem, solution, category)
 
-    if re.search(".*[0-9]+.*", feasibility_score) == None:
+    if re.search("[0-9]", feasibility_score) == None:
         feasibility_score = "0"
-    if re.search(".*[0-9]+.*", novelty_score) == None:
+    if re.search("[0-9]", novelty_score) == None:
         novelty_score = "0"
-    if re.search(".*[0-9]+.*", env_impact_score) == None:
-        novelty_score = "0"
+    if re.search("[0-9]", env_impact_score) == None:
+        env_impact_score = "0"
         
     overall_score = str(int(re.search("[0-9]",feasibility_score).group()) + 
                         int(re.search("[0-9]",novelty_score).group()) + 

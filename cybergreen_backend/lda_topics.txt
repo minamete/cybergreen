@@ -1,6 +1,6 @@
-Topic 1: Electronic Waste Recycling
-Topic 2: Packaging and Food Industry
-Topic 3: Plastic Waste Reduction
-Topic 4: Energy and Sustainable Technology
-Topic 5: Fashion Industry and Sustainable Clothing
-Topic 6: Electronic Waste Recycling and Consumer Electronics
+Topic 1: Fashion and Clothing Industry
+Topic 2: Electronic Waste and Recycling
+Topic 3: Paper and Energy Conservation
+Topic 4: Plastic Packaging and Business
+Topic 5: Packaging and Energy Efficiency
+Topic 6: Electronic Waste Recycling Platform
