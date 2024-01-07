@@ -1,7 +1,6 @@
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
     max-width: 75%;
     margin: auto;
   }
@@ -9,7 +8,7 @@
   .message-box {
     flex: 1;
     overflow-y: auto;
-    max-height: 400px;
+    max-height: 60vh;
     padding: 10px;
     display: flex;
     flex-direction: column; /* Adjusted to column layout */
