@@ -9,6 +9,27 @@ client = MongoClient('localhost', 27017)
 db = client.flask_db
 submissions = db.submissions
 
+@app.route("/submission", methods=("GET", "POST", "OPTIONS"))
+def submission():
+    print("hi")
+    if request.method=="POST":
+        # Submit the submission
+        user_input = request.args.get('submit')
+        problem = user_input[0]
+        solution = user_input[1]
+        score = user_input[2]
+         
+        # Run through score
+        # topic = request.args.get('topic')
+        
+        
+        return jsonify({
+            "response": "Submission successful", 
+            "Access-Control-Allow-Origin": "*",
+        })
+    all_submissions = submissions.find()
+    return jsonify({"response": "abc", "Access-Control-Allow-Origin": "*"})
+
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
