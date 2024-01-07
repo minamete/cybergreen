@@ -13,14 +13,17 @@ def train_and_interpret_lda_model(data, num_topics):
     # Lower eta -> Topics are composed of fewer dominant words
     lda_model = models.LdaModel(corpus, num_topics=num_topics, id2word=dictionary, passes=20, alpha=0.1, eta=0.1)
 
-    # Initialize an empty string to store the output
-    lda_output_string = ""
+    # Save topics and associated words by writing string to file
+    # These topics will be interpreted later
+    lda_topics_dist = ""
 
-    # Save topics and associated words in order to interpret!
     for topic_id, topic_words in lda_model.print_topics():
-        lda_output_string += f"Topic {topic_id + 1}: {topic_words}\n"
+        lda_topics_dist += f"Topic {topic_id + 1}: {topic_words}\n"
+    
+    with open('lda_topics_dist.txt', 'w') as f:
+        f.write(lda_topics_dist)
 
-    return lda_output_string
+    # return lda_output_string
 
 def run_lda_training(dataset):
     # Load dataset
@@ -40,10 +43,12 @@ def run_lda_training(dataset):
     tokenized_text = text_data.apply(preprocess_text)
 
     # Display the tokenized text for the first document
-    print(tokenized_text.iloc[0])
+    # print(tokenized_text.iloc[0])
 
     # Set parameters
     data = tokenized_text
     num_topics = 6
 
     return train_and_interpret_lda_model(data, num_topics)
+
+run_lda_training("dataset.csv")

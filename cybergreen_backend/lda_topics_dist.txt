@@ -1,0 +1,6 @@
+Topic 1: 0.022*"fashion" + 0.015*"clothes" + 0.013*"industry" + 0.011*"clothing" + 0.011*"food" + 0.010*"platform" + 0.009*"consumer" + 0.009*"item" + 0.008*"new" + 0.007*"sustainable"
+Topic 2: 0.019*"product" + 0.013*"resource" + 0.012*"material" + 0.012*"device" + 0.011*"company" + 0.011*"new" + 0.011*"electronic" + 0.010*"ewaste" + 0.009*"recycling" + 0.008*"consumer"
+Topic 3: 0.010*"paper" + 0.009*"space" + 0.007*"energy" + 0.006*"vehicle" + 0.006*"system" + 0.006*"use" + 0.005*"used" + 0.005*"need" + 0.005*"tool" + 0.005*"like"
+Topic 4: 0.039*"plastic" + 0.017*"packaging" + 0.011*"container" + 0.010*"material" + 0.009*"business" + 0.009*"product" + 0.009*"food" + 0.007*"singleuse" + 0.006*"use" + 0.006*"cost"
+Topic 5: 0.013*"system" + 0.011*"packaging" + 0.010*"business" + 0.008*"energy" + 0.008*"material" + 0.007*"technology" + 0.007*"recycling" + 0.006*"use" + 0.006*"industry" + 0.006*"cost"
+Topic 6: 0.016*"platform" + 0.015*"ewaste" + 0.014*"material" + 0.011*"recycling" + 0.010*"business" + 0.008*"energy" + 0.007*"device" + 0.007*"electronic" + 0.006*"electronics" + 0.005*"new"

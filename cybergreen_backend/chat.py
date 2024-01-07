@@ -189,7 +189,10 @@ def get_interpret_prompt():
     """
     Interpret the set of generic topics using trained LDA model output.
     """
-    lda_output_string = run_lda_training(dataset)
+    # Read the LDA topics into a string
+    # lda_output_string = run_lda_training(dataset)
+    with open("lda_topics_dist.txt", 'r') as file:
+        lda_topics_dist = file.read()
     
     custom_interpret_instructions = """
     Please provide a brief interpretation of the topics based on this trained LDA model output. Each individual topic should clearly identify a distinct domain or industry. Together, the topics should comprehensively cover the concept of the circular economy, which focuses on reusing and recycling resources to minimize waste. Your interpretation of the topics will be used to classify new problem and solution pairs to the most descriptive and accurate ability. Keep in mind that is the option to classify as "Other" if there is no one topic is sufficient. Format your response as separate lines of Topic X: Name. 
@@ -211,14 +214,28 @@ def get_interpret_prompt():
     Topic 5: Resource Management
     Topic 6: Infrastructure and Construction
     """
-    return lda_output_string + "\n" + custom_interpret_instructions
+    return lda_topics_dist + "\n" + custom_interpret_instructions
 
-def get_interpreted_topics(): 
+def save_interpreted_topics(): 
     interpret_prompt = get_interpret_prompt()
     topic_labels = get_openai_response(interpret_prompt)
-    return topic_labels
 
-def predict_topic(problem, solution): 
+    # Write the most up-to-date interpreted topics to a file
+    with open('lda_topics.txt', 'w') as f:
+        f.write(topic_labels)
+
+def get_interpreted_topics():
+    """
+    Read the interpreted LDA topics into a string which will be used to 
+    augment all evaluation prompts for a circular economy idea.
+
+    TODO: More validation tests
+    """
+    with open("lda_topics.txt", 'r') as file:
+        topic_labels = file.read()
+    return f"According to your most recent knowledge, the possible topics for classification are: '{topic_labels}'"
+
+def predict_topic(problem, solution, topic_labels_recall): 
     """
     Classify new user input into one of the interpreted topic labels.
     """
@@ -228,7 +245,8 @@ def predict_topic(problem, solution):
     Problem: '{problem}'
     Solution: '{solution}'
 
-    Recall the topics which can be used for classification: '{topic_labels}'.
+    '{topic_labels_recall}'
+
     Predict the relevant topic of the new idea. Respond in one concise sentence with the most likely topic name, your level of confidence in that classification, and a brief description in how you know that the idea can contribute to innovation in that topic. If you are not confident that any topic is appropriate, say "Other," and concisely explain your reasoning.
     """
 
@@ -245,4 +263,11 @@ def predict_topic(problem, solution):
 # response = get_openai_response(user_input)
 # print("Assistant:", response)
 
-print(get_interpreted_topics())
+def run_chat():
+    # Use existing database to get interpreted topics
+    save_interpreted_topics()
+    topic_labels_recall = get_interpreted_topics()
+    
+    print(topic_labels_recall)
+
+run_chat()

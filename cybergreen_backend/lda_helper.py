@@ -10,9 +10,10 @@ from nltk.metrics.distance import jaccard_distance
 from nltk.util import ngrams
 from nltk.corpus import words
 
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')
+# Download packages if necessary
+# nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('wordnet')
 # nltk.download('words')
 
 def preprocess_text(text):
