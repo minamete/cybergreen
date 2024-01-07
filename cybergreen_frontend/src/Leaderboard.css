@@ -18,8 +18,12 @@
 
 .problem-cell {
     width: 30vw;
+    max-width: 30vw !important;
+    overflow: hidden !important;
 }
 
 .solution-cell {
     width: 30vw;
+    max-width: 30vw !important;
+    overflow: hidden !important;
 }

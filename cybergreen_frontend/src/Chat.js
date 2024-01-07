@@ -39,10 +39,9 @@ const Chat = () => {
     // Add the user's message to the messages state
     const userMessage =
       "Problem: " + userProblemInput + " Solution: " + userSolutionInput;
-    const newUserMessage = { type: "user", text: userMessage };
-    setMessages((prevMessages) => [...prevMessages, newUserMessage]);
-
-    const problemSolutionObject = {
+    const newUserMessage = {
+      type: "user",
+      text: userMessage,
       problem: userProblemInput,
       solution: userSolutionInput,
     };
@@ -50,6 +49,13 @@ const Chat = () => {
     if (isSpam(userSolutionInput)) {
       return alert("Please provide a more comprehensive solution!");
     }
+
+    setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+
+    const problemSolutionObject = {
+      problem: userProblemInput,
+      solution: userSolutionInput,
+    };
 
     try {
       setIsChatLoading(true);
@@ -74,7 +80,10 @@ const Chat = () => {
         // If the response body is JSON, handle it as before
         const responseData = await response.json();
         if (typeof responseData === "object") {
-          const newAiMessage = { type: "ai", text: responseData.response };
+          const newAiMessage = {
+            type: "ai",
+            text: responseData.response,
+          };
           setMessages((prevMessages) => [...prevMessages, newAiMessage]);
         } else {
           setMessages([
@@ -112,17 +121,18 @@ const Chat = () => {
     setUserSolutionInput("");
   };
 
-  const handleSubmitMessage = async () => {
+  const handleSubmitMessage = async (problem, solution) => {
     // submitting to mongo
     const mongoSubmission = {
-      problem: userProblemInput,
-      solution: userSolutionInput,
+      problem: problem,
+      solution: solution,
     };
 
-    if (isSpam(userSolutionInput)) {
+    if (isSpam(solution)) {
       return alert("Please provide a more comprehensive solution!");
     }
 
+    setIsChatLoading(true);
     try {
       const response = await fetch("http://localhost:5000/submission", {
         method: "POST",
@@ -136,9 +146,39 @@ const Chat = () => {
       if (!response.ok) {
         throw new Error("Submission failed");
       }
+      setIsChatLoading(false);
 
-      alert("Submission succeeded");
+      const responseData = await response.json();
+      if (typeof responseData === "object") {
+        let responseString = "";
+        let responseCategories = [
+          "Environmental impact score",
+          "Feasibility score",
+          "Novelty score",
+          "Overall score",
+        ];
+        for (let i = 0; i < Object.values(responseData.response).length; i++) {
+          let newAiMessage = {
+            type: "ai",
+            text:
+              responseCategories[i] +
+              ": " +
+              Object.values(responseData.response)[i],
+          };
+          setMessages((prevMessages) => [...prevMessages, newAiMessage]);
+        }
+      } else {
+        setMessages([
+          ...messages,
+          {
+            type: "ai",
+            text: "I'm sorry, there was an error.",
+          },
+        ]);
+        console.error("Invalid JSON format in OpenAI response:", responseData);
+      }
     } catch (error) {
+      setIsChatLoading(false);
       console.error("Submission failed", error);
     }
   };
@@ -155,6 +195,16 @@ const Chat = () => {
             className={message.type === "user" ? "user-message" : "ai-message"}
           >
             {message.text}
+            {message.type === "user" ? (
+              <button
+                onClick={(e) =>
+                  handleSubmitMessage(message.problem, message.solution)
+                }
+                className="submit-button"
+              >
+                Submit
+              </button>
+            ) : null}
           </div>
         ))}
       </div>
@@ -179,34 +229,17 @@ const Chat = () => {
           <button onClick={handleSendMessage} className="send-button">
             Send
           </button>
-          <button onClick={handleSubmitMessage} className="send-button">
-            Submit
-          </button>
         </div>
       </div>
       <div className="input-row">
         <p>Predict:</p>
-        <button className="predict-button">
-          Environmental Impact
-        </button>
-        <button className="predict-button">
-          Business and Financial Risks
-        </button>
-        <button className="predict-button">
-          Market Insights and Outlooks
-        </button>
-        <button className="predict-button">
-          Regulation and Compliance
-        </button>
-        <button className="predict-button">
-          Competitive Advantage
-        </button>
-        <button className="predict-button">
-          Idea and Concept Feasibility
-        </button>
-        <button className="predict-button">
-          Potential Funding Outlook
-        </button>
+        <button className="predict-button">Environmental Impact</button>
+        <button className="predict-button">Business and Financial Risks</button>
+        <button className="predict-button">Market Insights and Outlooks</button>
+        <button className="predict-button">Regulation and Compliance</button>
+        <button className="predict-button">Competitive Advantage</button>
+        <button className="predict-button">Idea and Concept Feasibility</button>
+        <button className="predict-button">Potential Funding Outlook</button>
       </div>
     </div>
   );
@@ -216,4 +249,4 @@ export default Chat;
 
 const isSpam = (text) => {
   return text.length < 50;
-}
+};
