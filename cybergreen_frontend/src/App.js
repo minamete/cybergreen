@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Chat from './Chat';
 import './App.css';
+import Leaderboard from './Leaderboard';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         {/* Routes */}
         <Routes>
           <Route path="/evaluate" element={<Chat />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           {/* Add other routes as needed */}
         </Routes>
 

@@ -1,0 +1,17 @@
+.main.content {
+    background-color: rgba(190, 210, 170, 0.25);
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 2%;
+    padding: 2%;
+    
+}
+
+.header-row {
+    background-color: darkgreen;
+}
+
