@@ -287,7 +287,7 @@ def get_all_scores(problem, solution, category):
     feasibility_score = get_feasibility_score(problem, solution, category)
     novelty_score = get_novelty_score(problem, solution, category)
     env_impact_score = get_env_impact_score(problem, solution, category)
-    overall_score = feasibility_score + novelty_score + env_impact_score
+    overall_score = str(int(feasibility_score) + int(novelty_score) + int(env_impact_score))
 
     # Create a dictionary to hold the scores
     scores_dict = {
@@ -367,7 +367,7 @@ def get_interpreted_topics():
     """
     with open("lda_topics.txt", 'r') as file:
         topic_labels = file.read()
-    return f"According to your most recent knowledge, the possible topic labels for classification are: '{topic_labels}'"
+    return f"According to your most recent knowledge, the possible topic labels for classification are: '{topic_labels}'. The format of each topic label is Topic ID: Topic Name."
 
 def predict_category(problem, solution, topic_labels_recall): 
     """
@@ -381,7 +381,7 @@ def predict_category(problem, solution, topic_labels_recall):
 
     '{topic_labels_recall}'
 
-    Predict the relevant topic of the new idea. Respond only with the most likely topic label. If you are not confident that any topic is appropriate, respond only with the word Other.
+    Predict the relevant topic of the new idea. Respond only with the most likely Topic Name. Do not include any numbers or colons. If you are not confident that any topic is appropriate, respond only with the word Other.
     """
 
     category = get_openai_response(predict_topic_prompt)
