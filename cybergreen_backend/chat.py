@@ -284,7 +284,7 @@ def get_all_scores(problem, solution, category):
     feasibility_score = get_feasibility_score(problem, solution, category)
     novelty_score = get_novelty_score(problem, solution, category)
     env_impact_score = get_env_impact_score(problem, solution, category)
-    overall_score = feasibility_score + novelty_score + env_impact_score + overall_score
+    overall_score = feasibility_score + novelty_score + env_impact_score
 
     # Create a dictionary to hold the scores
     scores_dict = {

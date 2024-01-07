@@ -85,24 +85,25 @@ def submission():
             input["score"] = random.random() * 10 
 
             # TODO: Retrieve problem, solution from a single input
-            # problem = input["problem"]
+            problem = input["problem"]
+            solution = input["solution"]
 
             # Save predicted category to db
-            # category = get_predicted_category(problem, solution)
-            # input["category"] = category
+            category = get_predicted_category(problem, solution)
+            input["category"] = category
 
             # Save scores to db
-            # scores = get_all_scores(problem, solution)        
+            scores = get_all_scores(problem, solution, category)        
 
-            # feasibility_score = scores[‘feasibility_score’]
-            # novelty_score = scores[‘novelty_score’]
-            # env_impact_score = scores[‘env_impact_score’]
-            # overall_score = scores[‘overall_score’]
+            feasibility_score = scores['feasibility_score']
+            novelty_score = scores['novelty_score']
+            env_impact_score = scores['env_impact_score']
+            overall_score = scores['overall_score']
 
-            # input["feasibility_score"] = feasibility_score
-            # input["novelty_score"] = novelty_score
-            # input["env_impact_score"] = env_impact_score
-            # input["overall_score"] = overall_score
+            input["feasibility_score"] = feasibility_score
+            input["novelty_score"] = novelty_score
+            input["env_impact_score"] = env_impact_score
+            input["overall_score"] = overall_score
         
         submissions.insert_many(user_input)
         
