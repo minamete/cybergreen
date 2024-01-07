@@ -364,7 +364,7 @@ def get_interpreted_topics():
     """
     with open("lda_topics.txt", 'r') as file:
         topic_labels = file.read()
-    return f"According to your most recent knowledge, the possible topics for classification are: '{topic_labels}'"
+    return f"According to your most recent knowledge, the possible topic labels for classification are: '{topic_labels}'"
 
 def predict_category(problem, solution, topic_labels_recall): 
     """
@@ -378,7 +378,7 @@ def predict_category(problem, solution, topic_labels_recall):
 
     '{topic_labels_recall}'
 
-    Predict the relevant topic/category of the new idea. Respond in one concise sentence with the most likely topic name, your level of confidence in that classification, and a brief description in how you know that the idea can contribute to innovation in that topic. If you are not confident that any topic is appropriate, say "Other," and concisely explain your reasoning.
+    Predict the relevant topic of the new idea. Respond only with the most likely topic label. If you are not confident that any topic is appropriate, respond only with the word Other.
     """
 
     category = get_openai_response(predict_topic_prompt)
