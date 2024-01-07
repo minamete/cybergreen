@@ -236,7 +236,7 @@ def novelty_score(problem, solution, category):
     response = get_openai_response(prompt)
     return  int(response)
 
-def generate_impact_score_prompt(problem, solution, category):
+def environmental_impact(problem, solution, category):
     """
     Generates a prompt for an AI model to assess the environmental impact of a business idea.
     The impact is rated on a scale from 1 to 10, with 10 being the most positive impact.
