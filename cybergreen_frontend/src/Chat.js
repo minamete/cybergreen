@@ -27,8 +27,7 @@ const Chat = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/user_chat?user_input=" +
-          encodeURIComponent(userMessage),
+        "http://localhost:5000/user_chat",
         {
           method: "GET",
           headers: {
