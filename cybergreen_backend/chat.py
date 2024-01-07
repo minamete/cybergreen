@@ -72,8 +72,6 @@ def evaluate_idea_impact(problem, solution, category):
     Predicted Category: {category}
     Considering the problem and proposed solution, especially in relation to the category '{category}', please analyze the potential impact on environmental, social, and economic aspects.
     """
-    
-    # Assuming you have a function `get_openai_response` to interact with OpenAI API
     response = get_openai_response(prompt)
     return response
 
@@ -89,8 +87,6 @@ def evaluate_business_risks(problem, solution, category):
     Predicted Category: {category}
     Business Risk Analysis: Considering the above problem and solution, especially in relation to the category '{category}', what could be the potential business risks and threats associated with this solution? Please analyze in terms of market viability, competition, financial stability, and regulatory challenges.
     """
-    
-    # Assuming you have a function `get_openai_response` to interact with OpenAI API
     response = get_openai_response(prompt)
     return response
 
@@ -113,7 +109,6 @@ def get_market_insights(problem, solution, category):
     Discuss the current and emerging trends in the market relevant to '{category}' solutions, particularly those addressing the problem: {problem}. How might these trends impact the future of this market?
     """
 
-    # Assuming you have a function `get_openai_response` to interact with OpenAI API
     market_size_response = get_openai_response(market_size_prompt)
     competitors_response = get_openai_response(competitors_prompt)
     market_trends_response = get_openai_response(market_trends_prompt)
@@ -134,8 +129,8 @@ def regulatory_compliance_assessment(problem, solution):
     what are the regulatory and compliance considerations that need to be addressed? 
     Include potential regulatory challenges and necessary compliance measures.
     """
-    # Call the OpenAI API with the prompt
-    response = get_openai_response(prompt)  # Replace with actual API call
+   
+    response = get_openai_response(prompt) 
     return prompt  # Returning prompt for demonstration
 
 def competitive_advantage_usp(problem, solution):
@@ -147,7 +142,7 @@ def competitive_advantage_usp(problem, solution):
     what is the competitive advantage and unique selling proposition (USP) of this solution? 
     Explain how it stands out from competitors and its potential market impact.
     """
-    # Call the OpenAI API with the prompt
+   
     response = get_openai_response(prompt)  
     return prompt  # Returning prompt for demonstration
 
@@ -164,8 +159,6 @@ def evaluate_solution_feasibility(problem, solution, category):
     especially in relation to the category '{category}', assess the feasibility of this solution. 
     Discuss any challenges or issues that might make the solution unfeasible or difficult to implement.
     """
-    
-    # Assuming you have a function `get_openai_response` to interact with OpenAI API
     response = get_openai_response(prompt)
     return response
 
@@ -179,8 +172,6 @@ def identify_funding_resources(problem, solution, category):
     Predicted Category: {category}
     Based on this business idea, which focuses on addressing '{problem}' with the solution '{solution}' in the category of '{category}', what are the potential government and private funding resources available? Please provide information on relevant grants, investors, and funding programs that could support this type of initiative.
     """
-    
-    # Assuming you have a function `get_openai_response` to interact with OpenAI API
     response = get_openai_response(prompt)
     return response
 
