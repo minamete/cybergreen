@@ -66,15 +66,15 @@ def chat():
     # response = get_openai_response(user_input)
     # return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})
     
+    user_problem = request.args.get('problem')
+    user_solution = request.args.get('solution')
+    
     # Get user input from query parameters
-    user_input = "Problem: " + request.json['problem'] + " Solution: " + request.json['solution']
+    user_input = "Problem: " + user_problem + " Solution: " + user_solution
     if user_input is None:
         return jsonify({"error": "user_input parameter is missing."})
     
     # Do additional processing with user_problem and user_solution
-    user_problem = request.json['problem']
-    user_solution = request.json['solution']
-
     # Return base evaluation response
     response = eval_idea(user_problem, user_solution)
     return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})

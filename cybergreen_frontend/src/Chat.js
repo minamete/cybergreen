@@ -18,23 +18,21 @@ const Chat = () => {
     // Add the user's message to the messages state
     const userMessage =
       "Problem: " + userProblemInput + " Solution: " + userSolutionInput;
-    const problemSolutionObject = {
-      problem: userProblemInput,
-      solution: userSolutionInput
-    }
     const newUserMessage = { type: "user", text: userMessage };
     setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 
     try {
       const response = await fetch(
-        "http://localhost:5000/user_chat",
+        "http://localhost:5000/user_chat?problem=" +
+          encodeURIComponent(userProblemInput) +
+          "&solution=" +
+          encodeURIComponent(userSolutionInput),
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
           mode: "cors",
-          body: JSON.stringify(problemSolutionObject)
         }
       );
 
@@ -75,21 +73,18 @@ const Chat = () => {
     const mongoSubmission = {
       problem: userProblemInput,
       solution: userSolutionInput,
-      score: Math.random()
+      score: Math.random(),
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/submission",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          mode: "cors",
-          body: JSON.stringify(mongoSubmission)
-        }
-      );
+      const response = await fetch("http://localhost:5000/submission", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        body: JSON.stringify(mongoSubmission),
+      });
 
       if (!response.ok) {
         throw new Error("Submission failed");
@@ -137,12 +132,12 @@ const Chat = () => {
           />
         </div>
         <div className="input-col">
-        <button onClick={handleSendMessage} className="send-button">
-          Send
-        </button>
-        <button onClick={handleSubmitMessage} className="send-button">
-          Submit
-        </button>
+          <button onClick={handleSendMessage} className="send-button">
+            Send
+          </button>
+          <button onClick={handleSubmitMessage} className="send-button">
+            Submit
+          </button>
         </div>
       </div>
     </div>
