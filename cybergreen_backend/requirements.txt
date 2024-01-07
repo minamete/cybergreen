@@ -5,9 +5,10 @@ certifi
 charset-normalizer
 click
 distro
+dnspython
 filelock
 Flask
-flask_cors
+Flask-Cors
 Flask-PyMongo
 fsspec
 gensim
@@ -29,7 +30,7 @@ packaging
 pandas
 pydantic
 pydantic_core
-pymongo[srv]
+pymongo
 python-dateutil
 python-dotenv
 pytz
@@ -52,4 +53,3 @@ typing_extensions
 tzdata
 urllib3
 Werkzeug
-flask_cors
