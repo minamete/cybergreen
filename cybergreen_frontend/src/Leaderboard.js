@@ -21,7 +21,7 @@ const Leaderboard = () => {
         .then((data) => {
           // set table values and sort table
           setDBTable(
-            JSON.parse(data).sort((a, b) => (a.score > b.score ? -1 : 1))
+            JSON.parse(data.response).sort((a, b) => (a.score > b.score ? -1 : 1))
           );
         });
     } catch (error) {

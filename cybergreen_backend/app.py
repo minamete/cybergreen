@@ -4,6 +4,7 @@ from pymongo import MongoClient, errors
 from chat_fe import get_openai_response
 import os
 import sys
+import random
 from dotenv import load_dotenv
 from bson.json_util import dumps
 
@@ -31,7 +32,10 @@ def submission():
     if request.method=="POST":
         # Submit the submission
         user_input = request.json
-        submissions.insert_one(user_input)
+        print(user_input)
+        for input in user_input:
+            input["score"] = random.random() * 10 
+        submissions.insert_many(user_input)
         
         return jsonify({
             "response": "Submission successful", 

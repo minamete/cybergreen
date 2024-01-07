@@ -73,7 +73,6 @@ const Chat = () => {
     const mongoSubmission = {
       problem: userProblemInput,
       solution: userSolutionInput,
-      score: Math.random(),
     };
 
     try {
@@ -83,7 +82,7 @@ const Chat = () => {
           "Content-Type": "application/json",
         },
         mode: "cors",
-        body: JSON.stringify(mongoSubmission),
+        body: JSON.stringify([mongoSubmission]),
       });
 
       if (!response.ok) {
