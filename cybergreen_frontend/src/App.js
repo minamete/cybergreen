@@ -23,7 +23,7 @@ function App() {
 
         {/* Routes */}
         <Routes>
-          <Route path="/evaluate" element={<Chat />} />
+          <Route path="/evaluate" element={<ChatPage />} />
           {/* Add other routes as needed */}
         </Routes>
 
@@ -31,7 +31,7 @@ function App() {
         <div className="center-align">
           {/* Use Link to navigate to the 'evaluate' route */}
           <Link to="/evaluate">
-            <button className="evaluate-button">Evaluate Your Idea</button>
+            <button className="evaluate-button">Evaluate Your Ideas</button>
           </Link>
         </div>
       </div>
@@ -39,4 +39,14 @@ function App() {
   );
 }
 
+function ChatPage() {
+  return (
+    <div>
+      
+      <Chat />
+    </div>
+  );
+}
+
 export default App;
+
