@@ -9,6 +9,7 @@ from bson.json_util import dumps
 
 load_dotenv()
 mongo_url = os.getenv("MONGO_LINK")
+from chat_idea import eval_idea
 
 app = Flask(__name__)
 CORS(app)
@@ -47,15 +48,25 @@ def hello_world():
 def test_chat(user_input):
     return get_openai_response(user_input)
 
-@app.route("/user_chat")
+@app.route("/user_chat", methods=['GET', 'POST'])
 def chat():
+    # user_input = request.args.get('user_input')  # Get user input from query parameters
+    # if user_input is None:
+    #     return "Error: user_input parameter is missing."
+
+    # # Call the get_openai_response function
+    # response = get_openai_response(user_input)
+    # return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})
+    
     user_input = request.args.get('user_input')  # Get user input from query parameters
     if user_input is None:
-        return "Error: user_input parameter is missing."
+        return jsonify({"error": "user_input parameter is missing."}), 400
+    
+    # Do additional processing with user_problem and user_solution
+    user_problem = request.args.get('user_problem')
+    user_solution = request.args.get('user_solution')
 
-    # Call the get_openai_response function
-    response = get_openai_response(user_input)
+    response = eval_idea(user_problem, user_solution)
     return jsonify({"response": response, "Access-Control-Allow-Origin": "*"})
-
 
 app.run()
