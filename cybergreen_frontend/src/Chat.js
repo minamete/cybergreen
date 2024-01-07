@@ -76,14 +76,14 @@ const Chat = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/submission?submit=" +
-          encodeURIComponent(mongoSubmission),
+        "http://localhost:5000/submission",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           mode: "cors",
+          body: JSON.stringify(mongoSubmission)
         }
       );
 

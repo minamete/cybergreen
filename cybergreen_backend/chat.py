@@ -2,8 +2,6 @@ from dotenv import load_dotenv
 import os
 from openai import OpenAI
 
-from train_lda_model import run_lda_training
-
 def get_openai_response(user_input):
 
     load_dotenv()
@@ -371,11 +369,17 @@ def predict_topic(problem, solution, topic_labels_recall):
 # response = get_openai_response(user_input)
 # print("Assistant:", response)
 
-def run_chat():
+def eval_idea(problem, solution):
     # Use existing database to get interpreted topics
     save_interpreted_topics()
     topic_labels_recall = get_interpreted_topics()
-    
-    print(topic_labels_recall)
 
-run_chat()
+    # Retrieve user problem and solution
+    category = predict_topic(problem, solution, topic_labels_recall)
+
+    # Augmenting the user input with the predicted topic, 
+    # we are now able to call any of the evaluation prompts 
+    
+    return category
+
+# run_chat()
