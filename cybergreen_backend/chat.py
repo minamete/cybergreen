@@ -162,8 +162,14 @@ topic_labels = ""
 def strip_user_input(user_input):
     # Strip user input to get problem and solution
     # Or get the API to be able to do this
-    user_problem = "Sample problem text"
-    user_solution = "Sample solution text"
+    parts = user_input.split("problem")
+    problem_part = parts[1].split("solution")
+    user_problem = problem_part[0].strip()
+    user_solution = problem_part[1].strip() if len(problem_part) > 1 else ""
+    return user_problem, user_solution
+    
+#user_problem = "Sample problem text"
+#user_solution = "Sample solution text"
 
 def get_interpret_prompt():
     """
