@@ -351,7 +351,7 @@ def get_interpret_prompt():
     Topic 5: 0.019*"energy" + 0.011*"resource" + 0.010*"system" + 0.010*"use" + 0.008*"sustainable" + 0.007*"product" + 0.007*"business" + 0.006*"reduce" + 0.006*"company" + 0.005*"vehicle"
     Topic 6: 0.018*"material" + 0.011*"construction" + 0.010*"industry" + 0.007*"new" + 0.006*"cost" + 0.006*"resource" + 0.006*"building" + 0.006*"use" + 0.005*"process" + 0.005*"need"
 
-    The topics that could be interpreted are:
+    The topics that were interpreted by a successfully trained model were:
     Topic 1: Food and Agriculture Systems
     Topic 2: Fashion and Consumer
     Topic 3: Energy and Emissions
