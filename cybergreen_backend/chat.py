@@ -77,11 +77,77 @@ def evaluate_idea_impact(problem, solution, category):
     response = get_openai_response(prompt)
     return response
 
-# Example usage
-problem_example = "High levels of food waste in urban areas"
-solution_example = "Implementing a city-wide composting program"
-category_example = "Food Waste"
 
-# Get the OpenAI API response
-impact_analysis = evaluate_idea_impact(problem_example, solution_example, category_example)
-print("Impact Analysis:", impact_analysis)
+def evaluate_business_risks(problem, solution, category):
+    """
+    Generates a prompt for the OpenAI API to evaluate the business risks and threats of an idea based on the problem, solution, and its category.
+    """
+    # Constructing the prompt
+    prompt = f"""
+    Problem: {problem}
+    Solution: {solution}
+    Predicted Category: {category}
+    Business Risk Analysis: Considering the above problem and solution, especially in relation to the category '{category}', what could be the potential business risks and threats associated with this solution? Please analyze in terms of market viability, competition, financial stability, and regulatory challenges.
+    """
+    
+    # Assuming you have a function `get_openai_response` to interact with OpenAI API
+    response = get_openai_response(prompt)
+    return response
+
+def get_market_insights(problem, solution, category):
+    """
+    Generates prompts for the OpenAI API to obtain insights on market size, biggest competitors, and general market trends for a given solution.
+    """
+    # Market Size Prompt
+    market_size_prompt = f"""
+    Analyze the market size for a solution related to '{category}' which addresses the problem: {problem}. The solution proposed is: {solution}. Provide current figures and projected growth.
+    """
+    
+    # Competitors Prompt
+    competitors_prompt = f"""
+    Identify the biggest competitors in the market for solutions related to '{category}', which addresses the problem: {problem}. The solution proposed is: {solution}. Discuss their strengths and weaknesses.
+    """
+
+    # Market Trends Prompt
+    market_trends_prompt = f"""
+    Discuss the current and emerging trends in the market relevant to '{category}' solutions, particularly those addressing the problem: {problem}. How might these trends impact the future of this market?
+    """
+
+    # Assuming you have a function `get_openai_response` to interact with OpenAI API
+    market_size_response = get_openai_response(market_size_prompt)
+    competitors_response = get_openai_response(competitors_prompt)
+    market_trends_response = get_openai_response(market_trends_prompt)
+
+    return {
+        "Market Size Analysis": market_size_response,
+        "Competitor Analysis": competitors_response,
+        "Market Trends Analysis": market_trends_response
+    }
+
+
+def regulatory_compliance_assessment(problem, solution):
+    """
+    Generate a prompt for evaluating the regulatory and compliance aspects of a solution.
+    """
+    prompt = f"""
+    Considering the problem '{problem}' and the proposed solution '{solution}', 
+    what are the regulatory and compliance considerations that need to be addressed? 
+    Include potential regulatory challenges and necessary compliance measures.
+    """
+    # Call the OpenAI API with the prompt
+    # response = openai_api_call(prompt)  # Replace with actual API call
+    return prompt  # Returning prompt for demonstration
+
+def competitive_advantage_usp(problem, solution):
+    """
+    Generate a prompt for evaluating the competitive advantage and unique selling proposition of a solution.
+    """
+    prompt = f"""
+    Given the problem '{problem}' and the solution '{solution}', 
+    what is the competitive advantage and unique selling proposition (USP) of this solution? 
+    Explain how it stands out from competitors and its potential market impact.
+    """
+    # Call the OpenAI API with the prompt
+    # response = openai_api_call(prompt)  # Replace with actual API call
+    return prompt  # Returning prompt for demonstration
+
