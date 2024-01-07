@@ -106,9 +106,9 @@ def submission():
             input["overall_score"] = overall_score
         
         submissions.insert_many(user_input)
-        
+                
         return jsonify({
-            "response": "Submission successful", 
+            "response": scores, 
             "Access-Control-Allow-Origin": "*",
         })
     all_submissions = submissions.find()
