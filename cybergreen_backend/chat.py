@@ -166,7 +166,7 @@ def get_funding_eval(problem, solution, category):
 # ---------------------------------------------------------------------
 # EVALUATION PROMPTS
 
-def get_feasibility_score(problem, solution, category):
+def feasibility_score_prompt(problem, solution, category):
     """
     Generates a prompt for an AI model to output a feasibility score from 1 to 10 for a business,
     based on the provided problem, solution, and category. Includes examples for training.
@@ -199,9 +199,9 @@ def get_feasibility_score(problem, solution, category):
     Feasibility Score: [Provide a feasibility score from 1 to 10]
     """
     response = get_openai_response(prompt)
-    return response
+    return  int(response)
 
-def get_novelty_score(problem, solution, category):
+def novelty_score(problem, solution, category):
     """
     Generates a prompt for an AI model to output a novelty score from 1 to 10 for a business,
     based on the provided problem, solution, and category. Includes examples for training.
@@ -234,15 +234,16 @@ def get_novelty_score(problem, solution, category):
     Novelty Score: [Provide a novelty/uniqueness score from 1 to 10]
     """
     response = get_openai_response(prompt)
-    return response
+    return  int(response)
 
-def get_impact_score(problem, solution, category):
+def generate_impact_score_prompt(problem, solution, category):
     """
     Generates a prompt for an AI model to assess the environmental impact of a business idea.
     The impact is rated on a scale from 1 to 10, with 10 being the most positive impact.
     Includes examples for training.
     """
     prompt = f"""
+    Assess the environmental impact of a business idea. The impact is rated on a scale from 1 to 10, with 10 being the most positive impact.
     Here are examples of business ideas with their environmental and economic impact scores:
 
     Example 1:
@@ -271,7 +272,8 @@ def get_impact_score(problem, solution, category):
     """
 
     response = get_openai_response(prompt)
-    return response
+    return int(response)
+
 
 
 # ---------------------------------------------------------------------
