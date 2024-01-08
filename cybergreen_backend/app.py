@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify, send_file, session
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from pymongo import MongoClient, errors
 from chat import get_predicted_category, get_all_scores
-from chat import get_base_eval, get_impact_eval # Move
+from chat import get_base_eval, get_impact_eval, get_risks_eval, get_market_eval, get_regulation_eval, get_competition_eval, get_feasibility_eval, get_funding_eval
 from chat_fe import get_openai_response
 import os
 import sys
@@ -67,6 +67,7 @@ def score_idea(problem, solution):
     scores = get_all_scores(problem, solution, category)
     return scores
 
+
 def get_base_response(problem, solution):
     """
     Return the formatted string with base evaluation and scores.
@@ -88,39 +89,19 @@ def get_base_response(problem, solution):
         f"Overall: {overall_score}."
     )
 
-    return base_eval + scores_string
+    return (base_eval + " " + scores_string, scores)
 
 # ---------------------------------------------------------------------
 # LIVE ROUTES
 
 @app.route("/submission", methods=("GET", "POST", "OPTIONS"))
 def submission():
-    print("hi")
     if request.method=="POST":
         # Submit the submission
         user_input = request.json
-        print(user_input)
         for input in user_input:
-            # Retrieve problem, solution from a single input
-            problem = input["problem"]
-            solution = input["solution"]
-
-            # Save predicted category to db
-            category = get_predicted_category(problem, solution)
-            input["category"] = category
-
-            # Save scores to db
-            scores = get_all_scores(problem, solution, category)        
-
-            feasibility_score = scores['feasibility_score']
-            novelty_score = scores['novelty_score']
-            env_impact_score = scores['env_impact_score']
-            overall_score = scores['overall_score']
-
-            input["feasibility_score"] = feasibility_score
-            input["novelty_score"] = novelty_score
-            input["env_impact_score"] = env_impact_score
-            input["overall_score"] = overall_score
+            # so that we have something to submit
+            scores = input["scores"]
         
         submissions.insert_many(user_input)
                 
@@ -150,15 +131,14 @@ def chat():
     # Predict category based on problem and solution
     category = get_predicted_category(problem, solution)
 
-    # Save values to current session
-    session['problem'] = problem
-    session['solution'] = solution
-    session['category'] = category
-
     # Get generated base evaluation response 
-    string_res = get_base_response(problem, solution)
+    base_response = get_base_response(problem, solution)
+    string_res = base_response[0]
+    scores = base_response[1]
+    
     response = {
         'str': string_res,
+        'scores': scores,
         'category': category
     }
 
@@ -167,8 +147,7 @@ def chat():
 @app.route("/impact", methods=['POST'])
 def eval_impact():
     """
-    Endpoint for handling additional responses based on user input.
-    This can be called when the user clicks the "Environmental Impact" button.
+    Endpoint for additional evaluation when the user clicks the "Comprehensive Impact" button.
     """
     # Get user query params from JSON data
     problem = request.json['problem']
@@ -176,12 +155,121 @@ def eval_impact():
     category = request.json['category']
 
     if not problem or not solution or not category:
-        return jsonify({"error": "Missing 'problem', 'solution', or 'category' in session."})
+        return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
 
     # Perform impact evaluation
     impact_eval = get_impact_eval(problem, solution, category)
 
     return jsonify({"response": impact_eval, "Access-Control-Allow-Origin": "*"})
+
+@app.route("/risks", methods=['POST'])
+def eval_risks():
+    """
+    Endpoint for additional evaluation when the user clicks the "Business and Financial Risks" button.
+    """
+    # Get user query params from JSON data
+    problem = request.json['problem']
+    solution = request.json['solution']
+    category = request.json['category']
+
+    if not problem or not solution or not category:
+        return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
+
+    # Perform risks evaluation
+    risks_eval = get_risks_eval(problem, solution, category)
+
+    return jsonify({"response": risks_eval, "Access-Control-Allow-Origin": "*"})
+
+@app.route("/market", methods=['POST'])
+def eval_market():
+    """
+    Endpoint for additional evaluation when the user clicks the "Market Insights and Outlooks" button.
+    """
+    # Get user query params from JSON data
+    problem = request.json['problem']
+    solution = request.json['solution']
+    category = request.json['category']
+
+    if not problem or not solution or not category:
+        return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
+
+    # Perform market evaluation
+    market_eval = get_market_eval(problem, solution, category)
+
+    return jsonify({"response": market_eval, "Access-Control-Allow-Origin": "*"})
+
+@app.route("/regulation", methods=['POST'])
+def eval_regulation():
+    """
+    Endpoint for additional evaluation when the user clicks the "Regulation and Compliance" button.
+    """
+    # Get user query params from JSON data
+    problem = request.json['problem']
+    solution = request.json['solution']
+    category = request.json['category']
+
+    if not problem or not solution or not category:
+        return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
+
+    # Perform regulation evaluation
+    regulation_eval = get_regulation_eval(problem, solution, category)
+
+    return jsonify({"response": regulation_eval, "Access-Control-Allow-Origin": "*"})
+
+@app.route("/competition", methods=['POST'])
+def eval_competition():
+    """
+    Endpoint for additional evaluation when the user clicks the "Competitive Advantage" button.
+    """
+    # Get user query params from JSON data
+    problem = request.json['problem']
+    solution = request.json['solution']
+    category = request.json['category']
+
+    if not problem or not solution or not category:
+        return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
+
+    # Perform competition evaluation
+    competition_eval = get_competition_eval(problem, solution)
+
+    return jsonify({"response": competition_eval, "Access-Control-Allow-Origin": "*"})
+
+@app.route("/feasibility", methods=['POST'])
+def eval_feasibility():
+    """
+    Endpoint for additional evaluation when the user clicks the "Idea and Concept Feasibility" button.
+    """
+    # Get user query params from JSON data
+    problem = request.json['problem']
+    solution = request.json['solution']
+    category = request.json['category']
+
+    if not problem or not solution or not category:
+        return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
+
+    # Perform feasibility evaluation
+    feasibility_eval = get_feasibility_eval(problem, solution, category)
+
+    return jsonify({"response": feasibility_eval, "Access-Control-Allow-Origin": "*"})
+
+@app.route("/funding", methods=['POST'])
+def eval_funding():
+    """
+    Endpoint for additional evaluation when the user clicks the "Potential Funding Outlook" button.
+    """
+    # Get user query params from JSON data
+    problem = request.json['problem']
+    solution = request.json['solution']
+    category = request.json['category']
+
+    if not problem or not solution or not category:
+        return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
+
+    # Perform funding evaluation
+    funding_eval = get_funding_eval(problem, solution, category)
+
+    return jsonify({"response": funding_eval, "Access-Control-Allow-Origin": "*"})
+
 
 @app.route('/process_csv', methods=['POST', 'OPTIONS'])
 def process_csv():
