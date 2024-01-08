@@ -10,7 +10,7 @@ import random
 from dotenv import load_dotenv
 from bson.json_util import dumps
 import csv
-from train_lda_model import train_and_interpret_lda_model
+from train_lda_model import run_lda_training, train_and_interpret_lda_model
 
 load_dotenv()
 mongo_url = os.getenv("MONGO_LINK")
@@ -216,7 +216,7 @@ def process_csv():
                 csv_writer.writerow([problem, solution])
                 print(f"Problem: {problem}, Solution: {solution}")
 
-        train_and_interpret_lda_model(csv_file_path, 6)
+        run_lda_training(csv_file_path)
 
         # Do not set Access-Control-Allow-Origin to '*' in the actual response
         return jsonify({'success': True, 'csv_file_path': csv_file_path})
