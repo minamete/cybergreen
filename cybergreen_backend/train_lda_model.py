@@ -11,6 +11,7 @@ topic_labels = {
   4: "Packaging and Energy Efficiency",
   5: "Electronic Waste Recycling Platform"
 }
+num_topics = 6
 
 def train_and_interpret_lda_model(data, num_topics):
     # Create a dictionary and corpus for topic modeling

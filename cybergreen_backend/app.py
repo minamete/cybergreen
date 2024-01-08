@@ -216,7 +216,7 @@ def process_csv():
                 csv_writer.writerow([problem, solution])
                 print(f"Problem: {problem}, Solution: {solution}")
 
-        train_and_interpret_lda_model(csv_file_path)
+        train_and_interpret_lda_model(csv_file_path, 6)
 
         # Do not set Access-Control-Allow-Origin to '*' in the actual response
         return jsonify({'success': True, 'csv_file_path': csv_file_path})
