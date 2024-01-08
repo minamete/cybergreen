@@ -1,6 +1,6 @@
-Topic 1: Paper and Recycling
-Topic 2: Fashion Industry and Sustainable Clothing
-Topic 3: Energy and Carbon Emissions
-Topic 4: Electronic Waste and Recycling
-Topic 5: Food System and Technology
-Topic 6: Packaging and Plastic Waste
+Topic 1: Construction and Building Materials
+Topic 2: Fashion and Clothing Industry
+Topic 3: Electronic Waste and Recycling
+Topic 4: Energy Efficiency and Cost Reduction
+Topic 5: Food Production and Waste Management
+Topic 6: Recycling and Resource Management

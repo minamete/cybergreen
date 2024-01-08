@@ -212,7 +212,7 @@ def eval_regulation():
         return jsonify({"error": "Missing 'problem', 'solution', or 'category'."})
 
     # Perform regulation evaluation
-    regulation_eval = get_regulation_eval(problem, solution, category)
+    regulation_eval = get_regulation_eval(problem, solution)
 
     return jsonify({"response": regulation_eval, "Access-Control-Allow-Origin": "*"})
 
