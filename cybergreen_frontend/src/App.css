@@ -24,6 +24,7 @@
   align-items: center; /* Align items in the center vertically */
   flex-wrap: wrap; /* Allow components to wrap to the next line if needed */
   gap: 20px; /* Adjust as needed for space between components */
+  margin: 3rem;
 }
 
 .Chat {
